@@ -1,9 +1,11 @@
-package me.toucantutor.toucan;
+package me.toucantutor.toucan.views;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import me.toucantutor.toucan.R;
 
 
 public class HomeScreenActivity extends ActionBarActivity {
