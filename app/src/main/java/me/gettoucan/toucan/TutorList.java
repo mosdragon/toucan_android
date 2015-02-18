@@ -5,6 +5,15 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.app.Fragment;
+
+import android.support.v4.app.FragmentManager;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -19,10 +28,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 
-public class TutorList extends Activity {
+public class TutorList extends FragmentActivity {
 
+    private ViewPager mPager;
 
+    private PagerAdapter mPagerAdapter;
 
+    private int numberOfTutors=0;
     ArrayList<Tutor> listOfTutors = new ArrayList<Tutor>();
     ArrayList<String> data = new ArrayList<String>();
     private final String testWebsite = "http://jsonplaceholder.typicode.com/users";
@@ -39,11 +51,19 @@ public class TutorList extends Activity {
         setContentView(R.layout.activity_tutor_list);
 
         createObjects();
-        System.out.println();
-        fillContents();
         buildData(readRawTextFile(this));
+
+        mPager = (ViewPager) findViewById(R.id.pager);
+        mPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+
+
+
+
     }
 
+    /*
+     *Reads JSON text file. *Tester until API is set up*
+     */
     public String readRawTextFile(Context ctx)
     {
         Resources res = getResources();
@@ -65,10 +85,11 @@ public class TutorList extends Activity {
         return text.toString();
     }
 
+    /*
+     *gets json file from server
+     */
     private void createObjects(){
     System.out.println("in create object method");
-
-
 //        try {
 //            HttpClient httpclient = new DefaultHttpClient();
 //            HttpResponse httpResponse = httpclient.execute(new
@@ -95,61 +116,25 @@ public class TutorList extends Activity {
 //            e.printStackTrace();
 //        }
     }
-    private void buildData(String jsonString) {
-        System.out.println("bruild");
 
+
+    /*
+     *parses json file. Separates tutors and creates Tutor objects
+     *for each tutor listed in the JSON file. Adds them to listOfTutors
+     */
+    private void buildData(String jsonString) {
         try {
             JSONObject object = new JSONObject(jsonString);
             JSONArray objectArray = object.getJSONArray("contacts");
-            for(int x=0;x<objectArray.length();x++){
+            numberOfTutors = objectArray.length();
+            for (int x = 0; x < numberOfTutors; x++) {
                 System.out.println("----------------------");
                 JSONObject current = objectArray.getJSONObject(x);
                 Tutor t = new Tutor(current);
-
+                listOfTutors.add(t);
             }
 
-        }catch(Exception e){};
-
-
-
-//        Gson gson = new GsonBuilder()
-//                .serializeNulls()
-//                .setDateFormat(DateFormat.MEDIUM)
-//                .setPrettyPrinting()
-//                .setVersion(1.0)
-//                .create();
-//        JsonReader jsReader = new JsonReader(new StringReader(jsonString));
-//        jsReader.setLenient(true);
-//        JsonObject json = gson.fromJson(jsReader, JsonObject.class);
-//        //System.out.println(json+" this is the first objkect");
-//        String root = "list";
-//        String arrayName = "item";
-
-//        JsonArray jsonObjects = json.getAsJsonObject(root).getAsJsonArray(arrayName);
-//
-//        ArrayList<Tutor> list = new ArrayList<Tutor>();
-//        JsonObject item =jsonObjects.get(0).getAsJsonObject();
-//        System.out.println(item+" this is the jsonobject");
-//        Tutor tutor1 = new Tutor(item);
-
-
-//        if (restaurantItems != null) {
-//            restaurants = new ArrayList<Restaurant>(restaurantItems.size());
-//
-//            for (int i = 0; i < restaurantItems.size(); i++) {
-//                JsonObject item = restaurantItems.get(i).getAsJsonObject();
-//                Restaurant restaurant = new Restaurant(item);
-//                //restaurant.createFullAddress(activity);
-//                restaurants.add(restaurant);
-//            }
-//        }
-    }
-
-    private void fillContents(){
-        TextView firstName = (TextView)findViewById(R.id.firstName);
-        TextView lastName = (TextView)findViewById(R.id.lastName);
-        TextView rating = (TextView)findViewById(R.id.rating);
-        TextView price = (TextView)findViewById(R.id.price);
+        } catch (Exception e) {};
 
 
     }
@@ -177,5 +162,28 @@ public class TutorList extends Activity {
 
 
 
+    /*
+     *Adapter for viewPager.
+     */
+    private class MyPagerAdapter extends FragmentPagerAdapter {
+
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        /*
+         *creates instance of TutorFragment, passing in the current tutor
+         */
+        @Override
+        public Fragment getItem(int pos) {
+            Tutor currentTutorShowing = listOfTutors.get(pos);
+            return TutorFragment.newInstance(currentTutorShowing);
+        }
+
+        @Override
+        public int getCount() {
+            return numberOfTutors;
+        }
+    }
 
 }
