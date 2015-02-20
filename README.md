@@ -68,3 +68,11 @@ The most important folders here are:
  + Create Login/Logout/Signup screens
  + Show list of tutors and sort by reviews, price, etc
 
+
+#### Signing your app:
+
+For certain API keys (like for Google Maps), you'll need to use a keystore. I've create a keystore for debugging. I'll create another one later, and explain more about what it actually does when we find some time. Just know, it's under the root project directory.
+
+File: debug.keystore
+Alias: android_debug
+Pass: toucan101

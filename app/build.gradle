@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        team_debug {
+            keyAlias 'android_debug'
+            keyPassword 'toucan101'
+            storeFile file('/home/osama/AndroidStudioProjects/toucan_android/debug.keystore')
+            storePassword 'toucan101'
+        }
+    }
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-
     defaultConfig {
         applicationId "me.toucantutor.toucantutoring"
         minSdkVersion 14
@@ -15,6 +22,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.team_debug
         }
     }
 }
