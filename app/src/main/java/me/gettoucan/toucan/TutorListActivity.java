@@ -1,22 +1,22 @@
 package me.gettoucan.toucan;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.app.Fragment;
-
-import android.support.v4.app.FragmentManager;
-
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,39 +26,41 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
-public class TutorList extends FragmentActivity {
+public class TutorListActivity extends Activity {
 
-    private ViewPager mPager;
-
-    private PagerAdapter mPagerAdapter;
 
     private int numberOfTutors=0;
-    ArrayList<Tutor> listOfTutors = new ArrayList<Tutor>();
+    List<Tutor> listOfTutors = new ArrayList<Tutor>();
     ArrayList<String> data = new ArrayList<String>();
     private final String testWebsite = "http://jsonplaceholder.typicode.com/users";
     private InputStreamReader inReader;
     private InputStream stream;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        //fetch tutors that are tutoring subject x from database
-        //create that many objects and put in array/
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tutor_list);
-
+        setContentView(R.layout.tutor_list);
         createObjects();
         buildData(readRawTextFile(this));
+        createListView();
+    }
 
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-
-
-
-
+    /*
+     * creates the actual list view using the TutorListAdapter
+     */
+    public void createListView(){
+        TutorListAdapter adapter = new TutorListAdapter(this, R.layout.tutor_list_item,listOfTutors);
+        ListView listView = (ListView)findViewById(R.id.tutorListView);
+        listView.setAdapter(adapter);
     }
 
     /*
@@ -89,7 +91,7 @@ public class TutorList extends FragmentActivity {
      *gets json file from server
      */
     private void createObjects(){
-    System.out.println("in create object method");
+        Log.v("","Creating Tutor objects");
 //        try {
 //            HttpClient httpclient = new DefaultHttpClient();
 //            HttpResponse httpResponse = httpclient.execute(new
@@ -128,16 +130,14 @@ public class TutorList extends FragmentActivity {
             JSONArray objectArray = object.getJSONArray("contacts");
             numberOfTutors = objectArray.length();
             for (int x = 0; x < numberOfTutors; x++) {
-                System.out.println("----------------------");
                 JSONObject current = objectArray.getJSONObject(x);
                 Tutor t = new Tutor(current);
                 listOfTutors.add(t);
             }
 
         } catch (Exception e) {};
-
-
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -162,28 +162,5 @@ public class TutorList extends FragmentActivity {
 
 
 
-    /*
-     *Adapter for viewPager.
-     */
-    private class MyPagerAdapter extends FragmentPagerAdapter {
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        /*
-         *creates instance of TutorFragment, passing in the current tutor
-         */
-        @Override
-        public Fragment getItem(int pos) {
-            Tutor currentTutorShowing = listOfTutors.get(pos);
-            return TutorFragment.newInstance(currentTutorShowing);
-        }
-
-        @Override
-        public int getCount() {
-            return numberOfTutors;
-        }
-    }
 
 }

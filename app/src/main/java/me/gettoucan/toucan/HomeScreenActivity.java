@@ -13,7 +13,7 @@ public class HomeScreenActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        Intent i = new Intent(this,TutorList.class);
+        Intent i = new Intent(this,TutorListActivity.class);
         startActivity(i);
     }
 
