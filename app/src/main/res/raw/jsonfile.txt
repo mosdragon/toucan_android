@@ -8,6 +8,8 @@
     "rating" : "4",
     "price" : "20",
     "distance" : "2",
+    "latitude" : "33.8412197",
+    "longitude" : "-83.4760296",
     "address": {
       "street": "Kulas Light",
       "suite": "Apt. 556",
@@ -34,6 +36,8 @@
     "rating" : "5",
     "price" : "24",
     "distance" : "3",
+    "latitude" : "33.8512197",
+    "longitude" : "-83.4960296",
     "address": {
       "street": "Victor Plains",
       "suite": "Suite 879",
@@ -60,6 +64,8 @@
     "rating" : "5",
     "price" : "12",
     "distance" : "2",
+    "latitude" : "33.5412197",
+    "longitude" : "-83.7760296",
     "address": {
       "street": "Douglas Extension",
       "suite": "Suite 847",
@@ -86,6 +92,8 @@
     "rating" : "1",
     "price" : "23",
     "distance" : "4",
+    "latitude" : "33.9412197",
+    "longitude" : "-83.4360296",
     "address": {
       "street": "Hoeger Mall",
       "suite": "Apt. 692",
@@ -112,6 +120,8 @@
     "rating" : "4",
     "price" : "20",
     "distance" : "2",
+    "latitude" : "33.2412197",
+    "longitude" : "-83.0760296",
     "address": {
       "street": "Skiles Walks",
       "suite": "Suite 351",
@@ -138,6 +148,8 @@
     "rating" : "2",
     "price" : "13",
     "distance" : "5",
+    "latitude" : "33.8212197",
+    "longitude" : "-83.8760296",
     "address": {
       "street": "Norberto Crossing",
       "suite": "Apt. 950",
@@ -164,6 +176,8 @@
     "rating" : "1",
     "price" : "5",
     "distance" : "1",
+    "latitude" : "33.8212197",
+    "longitude" : "-83.3760296",
     "address": {
       "street": "Rex Trail",
       "suite": "Suite 280",
@@ -190,6 +204,8 @@
     "rating" : "5",
     "price" : "30",
     "distance" : "6",
+    "latitude" : "33.5412197",
+    "longitude" : "-83.4760296",
     "address": {
       "street": "Ellsworth Summit",
       "suite": "Suite 729",
@@ -216,6 +232,8 @@
     "rating" : "4",
     "price" : "20",
     "distance" : "2",
+    "latitude" : "33.8412197",
+    "longitude" : "-83.4760296",
     "address": {
       "street": "Dayna Park",
       "suite": "Suite 449",
@@ -242,6 +260,8 @@
     "rating" : "2",
     "price" : "10",
     "distance" : "4",
+    "latitude" : "33.8212197",
+    "longitude" : "-83.9760296",
     "address": {
       "street": "Kattie Turnpike",
       "suite": "Suite 198",

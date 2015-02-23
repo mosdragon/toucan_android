@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -28,11 +30,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 
-public class TutorListActivity extends Activity {
+public class TutorListActivity extends ActionBarActivity {
 
 
     private int numberOfTutors=0;
@@ -41,8 +44,6 @@ public class TutorListActivity extends Activity {
     private final String testWebsite = "http://jsonplaceholder.typicode.com/users";
     private InputStreamReader inReader;
     private InputStream stream;
-
-
 
 
     @Override
@@ -61,8 +62,10 @@ public class TutorListActivity extends Activity {
      */
     public void createListView(){
         Log.v("","CREATING LSITVIEW");
-        TutorListAdapter adapter = new TutorListAdapter(this, R.layout.tutor_list_item,listOfTutors);
-        ListView listView = (ListView)findViewById(R.id.tutorListView);
+//        CompareTutors t = new CompareTutors();
+//        Collections.sort(listOfTutors,t.NAME);
+        final TutorListAdapter adapter = new TutorListAdapter(this, R.layout.tutor_list_item,listOfTutors);
+        final ListView listView = (ListView)findViewById(R.id.tutorListView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -150,6 +153,23 @@ public class TutorListActivity extends Activity {
             }
 
         } catch (Exception e) {};
+    }
+
+    public void sortList(ListView listView, ListAdapter adapter, String sortBy){
+        CompareTutors t = new CompareTutors();
+        if(sortBy.equals("name")){
+            Collections.sort(listOfTutors,t.NAME);
+        }
+        else if(sortBy.equals("price")){
+            Collections.sort(listOfTutors,t.PRICE);
+        }
+        else if(sortBy.equals("rating")){
+            Collections.sort(listOfTutors,t.RATING);
+        }
+        else if(sortBy.equals("distance")){
+            Collections.sort(listOfTutors,t.DISTANCE);
+        }
+        listView.setAdapter(adapter);
     }
 
     @Override

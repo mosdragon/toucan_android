@@ -54,9 +54,9 @@ public class TutorListAdapter extends ArrayAdapter<Tutor> {
         //sets the textview items to values obtained from tutor
         currentTutor = ( Tutor ) tutorList.get(position);
         nameField.setText(currentTutor.getName());
-        ratingField.setText(currentTutor.getRating()+"  (dist)");
+        ratingField.setText(currentTutor.getRating()+"  (rating)");
         priceField.setText(currentTutor.getPrice()+"  (price)");
-        distanceField.setText(currentTutor.getDistance()+"  (rating)");
+        distanceField.setText(currentTutor.getDistance()+"  (dist)");
         return row;
     }
 

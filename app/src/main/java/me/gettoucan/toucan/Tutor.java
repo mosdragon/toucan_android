@@ -7,6 +7,8 @@ import com.google.gson.JsonObject;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Aadil on 2/13/2015.
@@ -19,13 +21,13 @@ public class Tutor implements Serializable{
     private String password;
     private int id;
     private String email;
-    private double distance;
-    private double price;
-    private double rating;
-    private double availablity;
+    private Double distance;
+    private Double price;
+    private Double rating;
+    private Double availablity;
     private Location location;
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
 
     //
     public Tutor(JSONObject input){
@@ -37,10 +39,9 @@ public class Tutor implements Serializable{
         setEmail(fetch(input, "email"));
         setRating(fetch(input, "rating"));
         setPrice(fetch(input, "price"));
-        //setLatitude(fetch(input, "latitude"));
-        //setLongitude(fetch(input, "longitude"));
-        //setDistance();
-
+        setLatitude(fetch(input, "latitude"));
+        setLongitude(fetch(input, "longitude"));
+        setDistance();
     }
     public Tutor(){
 
@@ -87,7 +88,7 @@ public class Tutor implements Serializable{
     public void setRating(String rating){
         this.rating = Double.parseDouble(rating);
     }
-    public double getRating(){
+    public Double getRating(){
         return rating;
     }
 
@@ -101,26 +102,27 @@ public class Tutor implements Serializable{
     public void setPrice(String price){
         this.price = Double.parseDouble(price);
     }
-    public double getPrice(){
+    public Double getPrice(){
         return price;
     }
 
     public void setLatitude(String latitude){
         this.latitude = Double.parseDouble(latitude);
     }
-    public double getLatitude(){
+    public Double getLatitude(){
         return latitude;
     }
 
     public void setLongitude(String longitude){
         this.longitude = Double.parseDouble(longitude);
     }
-    public double getLongitude(){
+    public Double getLongitude(){
         return longitude;
     }
 
     //uses lat/long of tutor and current user to find distance between them
     public void setDistance(){
+        //flawed way of calculating distance.
         Location tutorLocation =  new Location("");
         tutorLocation.setLatitude(latitude);
         tutorLocation.setLongitude(longitude);
@@ -128,10 +130,11 @@ public class Tutor implements Serializable{
         //get currentlocation from location class. This is for testing
         currentLocation.setLongitude(33.947688);
         currentLocation.setLongitude(-83.346157);
-        double distance = currentLocation.distanceTo(tutorLocation);
+        //claimed to be the distance in miles btw points. Doesn't seem like it...
+        double distance = currentLocation.distanceTo(tutorLocation)*0.000621371;
         this.distance = distance;
     }
-    public double getDistance(){
+    public Double getDistance(){
         return distance;
     }
 
