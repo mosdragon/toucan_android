@@ -29,6 +29,14 @@
             android:name=".TutorListActivity"
             android:label="@string/title_activity_tutor_list" >
         </activity>
+        <activity
+            android:name=".TutorDetailActivity"
+            android:label="@string/title_activity_tutor_detail" >
+        </activity>
+        <activity
+            android:name=".TutorChooseSubjectsActivity"
+            android:label="@string/title_activity_tutor_choose_subjects" >
+        </activity>
     </application>
 
 </manifest>

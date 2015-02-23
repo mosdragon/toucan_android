@@ -3,19 +3,23 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".HomeScreenActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="me.gettoucan.toucan.TutorDetailActivity">
 
-    <Button
-        android:text="tutorList"
-        android:id="@+id/button1"
+    <TextView
+        android:textSize="30dp"
+        android:id="@+id/text"
+        android:text="TUTOR DETAIL ACTIVITY"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:text="subjectChoosingList"
-        android:id="@+id/button2"
-        android:layout_below="@id/button1"
+    <TextView
+        android:textSize="30dp"
+        android:id="@+id/chosenTutorName"
+        android:text="chosen"
+        android:layout_below="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
 
 </RelativeLayout>

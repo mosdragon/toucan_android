@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class HomeScreenActivity extends ActionBarActivity {
@@ -13,8 +15,24 @@ public class HomeScreenActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        Intent i = new Intent(this,TutorListActivity.class);
-        startActivity(i);
+
+        Button b1 = (Button)findViewById(R.id.button1);
+        Button b2 = (Button)findViewById(R.id.button2);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplication(),TutorListActivity.class);
+                startActivity(i);
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplication(),TutorChooseSubjectsActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 
 

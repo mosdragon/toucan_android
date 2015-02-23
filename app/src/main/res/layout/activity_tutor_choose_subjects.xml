@@ -3,19 +3,22 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".HomeScreenActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="me.gettoucan.toucan.TutorChooseSubjectsActivity">
+
+
+    <ListView
+        android:layout_centerHorizontal="true"
+        android:id="@+id/chooseSubjectList"
+        android:choiceMode="singleChoice"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        </ListView>
 
     <Button
-        android:text="tutorList"
-        android:id="@+id/button1"
+        android:text="CHOOSE"
+        android:layout_below="@+id/chooseSubjectList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-    <Button
-        android:text="subjectChoosingList"
-        android:id="@+id/button2"
-        android:layout_below="@id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+    
 </RelativeLayout>

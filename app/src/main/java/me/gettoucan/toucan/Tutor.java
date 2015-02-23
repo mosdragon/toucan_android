@@ -1,5 +1,7 @@
 package me.gettoucan.toucan;
 
+import android.location.Location;
+
 import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
@@ -21,16 +23,24 @@ public class Tutor implements Serializable{
     private double price;
     private double rating;
     private double availablity;
+    private Location location;
+    private double latitude;
+    private double longitude;
 
+    //
     public Tutor(JSONObject input){
         //setCertification(fetch(input,"certification"));  //just leave in db, or put in java object as well?
         //setAvailability(fetch(input,"availability"));
-        setName(fetch(input,"name"));
-        setUserName(fetch(input,"username"));
-        setEmail(fetch(input,"email"));
-        setRating(fetch(input,"rating"));
-        setPrice(fetch(input,"price"));
-        setDistance(fetch(input,"distance"));
+        setId(fetch(input, "id"));
+        setName(fetch(input, "name"));
+        setUserName(fetch(input, "username"));
+        setEmail(fetch(input, "email"));
+        setRating(fetch(input, "rating"));
+        setPrice(fetch(input, "price"));
+        //setLatitude(fetch(input, "latitude"));
+        //setLongitude(fetch(input, "longitude"));
+        //setDistance();
+
     }
     public Tutor(){
 
@@ -45,6 +55,13 @@ public class Tutor implements Serializable{
 
     public void setCertification(String certified) { isCertified = Boolean.parseBoolean(certified); }
     public boolean getCertification() { return isCertified; }
+
+    public void setId(String id){
+        this.id = Integer.parseInt(id);
+    }
+    public int getId(){
+        return id;
+    }
 
     public void setName(String name){
         this.name = name;
@@ -88,8 +105,31 @@ public class Tutor implements Serializable{
         return price;
     }
 
-    public void setDistance(String distance){
-        this.distance = Double.parseDouble(distance);
+    public void setLatitude(String latitude){
+        this.latitude = Double.parseDouble(latitude);
+    }
+    public double getLatitude(){
+        return latitude;
+    }
+
+    public void setLongitude(String longitude){
+        this.longitude = Double.parseDouble(longitude);
+    }
+    public double getLongitude(){
+        return longitude;
+    }
+
+    //uses lat/long of tutor and current user to find distance between them
+    public void setDistance(){
+        Location tutorLocation =  new Location("");
+        tutorLocation.setLatitude(latitude);
+        tutorLocation.setLongitude(longitude);
+        Location currentLocation = new Location("");
+        //get currentlocation from location class. This is for testing
+        currentLocation.setLongitude(33.947688);
+        currentLocation.setLongitude(-83.346157);
+        double distance = currentLocation.distanceTo(tutorLocation);
+        this.distance = distance;
     }
     public double getDistance(){
         return distance;

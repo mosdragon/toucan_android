@@ -3,6 +3,7 @@ package me.gettoucan.toucan;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -58,9 +60,19 @@ public class TutorListActivity extends Activity {
      * creates the actual list view using the TutorListAdapter
      */
     public void createListView(){
+        Log.v("","CREATING LSITVIEW");
         TutorListAdapter adapter = new TutorListAdapter(this, R.layout.tutor_list_item,listOfTutors);
         ListView listView = (ListView)findViewById(R.id.tutorListView);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.v("","CLICKED TUTOR");
+                Intent i = new Intent(getApplication(), TutorDetailActivity.class);
+                i.putExtra("tutorChosen", listOfTutors.get(position));
+                startActivity(i);
+            }
+        });
     }
 
     /*
@@ -68,6 +80,7 @@ public class TutorListActivity extends Activity {
      */
     public String readRawTextFile(Context ctx)
     {
+        Log.v("","READING RAW TEXT");
         Resources res = getResources();
         InputStream inputStream = res.openRawResource(R.raw.jsonfile);
 
@@ -130,6 +143,7 @@ public class TutorListActivity extends Activity {
             JSONArray objectArray = object.getJSONArray("contacts");
             numberOfTutors = objectArray.length();
             for (int x = 0; x < numberOfTutors; x++) {
+                Log.v("","ANOTHER TUTOR");
                 JSONObject current = objectArray.getJSONObject(x);
                 Tutor t = new Tutor(current);
                 listOfTutors.add(t);
