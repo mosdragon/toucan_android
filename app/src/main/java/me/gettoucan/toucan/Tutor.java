@@ -19,7 +19,7 @@ public class Tutor implements Serializable{
     private String name;
     private String userName;
     private String password;
-    private int id;
+    private long id;
     private String email;
     private Double distance;
     private Double price;
@@ -28,10 +28,10 @@ public class Tutor implements Serializable{
     private Location location;
     private Double latitude;
     private Double longitude;
+    private String phoneNumber;
 
-    //
     public Tutor(JSONObject input){
-        //setCertification(fetch(input,"certification"));  //just leave in db, or put in java object as well?
+        setCertification(fetch(input,"certification"));
         //setAvailability(fetch(input,"availability"));
         setId(fetch(input, "id"));
         setName(fetch(input, "name"));
@@ -43,9 +43,11 @@ public class Tutor implements Serializable{
         setLongitude(fetch(input, "longitude"));
         setDistance();
     }
+
     public Tutor(){
 
     }
+
     private String fetch(JSONObject input, String fieldName) {
         String s="";
         try{
@@ -57,10 +59,13 @@ public class Tutor implements Serializable{
     public void setCertification(String certified) { isCertified = Boolean.parseBoolean(certified); }
     public boolean getCertification() { return isCertified; }
 
+    public void setPhoneNumber(String number) { phoneNumber = number; }
+    public String getPhoneNumber() { return phoneNumber; }
+
     public void setId(String id){
-        this.id = Integer.parseInt(id);
+        this.id = Long.parseLong(id);
     }
-    public int getId(){
+    public long getId(){
         return id;
     }
 
