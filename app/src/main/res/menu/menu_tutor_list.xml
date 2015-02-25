@@ -2,13 +2,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="me.gettoucan.toucan.TutorListActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+
     <item
         android:id="@+id/sorting"
         android:orderInCategory="100"
         app:showAsAction="always"
         android:title="sortBy"
-        android:icon="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
-        />
+        android:icon="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha">
+
+        <menu>
+            <item
+                android:id="@+id/sortName"
+                android:title="Name" />
+            <item
+                android:id="@+id/sortRating"
+                android:title="Rating" />
+            <item
+                android:id="@+id/sortPrice"
+                android:title="Price" />
+            <item
+                android:id="@+id/sortDistance"
+                android:title="Distance" />
+        </menu>
+    </item>
 </menu>

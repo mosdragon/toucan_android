@@ -1,10 +1,12 @@
 package me.gettoucan.toucan;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.DataSetObserver;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,16 +38,17 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class TutorListActivity extends ActionBarActivity {
+public class TutorListActivity extends ActionBarActivity{
 
 
     private int numberOfTutors=0;
-    List<Tutor> listOfTutors = new ArrayList<Tutor>();
-    ArrayList<String> data = new ArrayList<String>();
+    private List<Tutor> listOfTutors = new ArrayList<Tutor>();
+    private ArrayList<String> data = new ArrayList<String>();
     private final String testWebsite = "http://jsonplaceholder.typicode.com/users";
     private InputStreamReader inReader;
     private InputStream stream;
-
+    private TutorListAdapter adapter;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +66,8 @@ public class TutorListActivity extends ActionBarActivity {
      */
     public void createListView(){
         Log.v("","CREATING LSITVIEW");
-//        CompareTutors t = new CompareTutors();
-//        Collections.sort(listOfTutors,t.NAME);
-        final TutorListAdapter adapter = new TutorListAdapter(this, R.layout.tutor_list_item,listOfTutors);
-        final ListView listView = (ListView)findViewById(R.id.tutorListView);
+        adapter = new TutorListAdapter(this, R.layout.tutor_list_item,listOfTutors);
+        listView = (ListView)findViewById(R.id.tutorListView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -151,11 +153,14 @@ public class TutorListActivity extends ActionBarActivity {
                 Tutor t = new Tutor(current);
                 listOfTutors.add(t);
             }
-
         } catch (Exception e) {};
     }
 
-    public void sortList(ListView listView, ListAdapter adapter, String sortBy){
+    /*
+     *Sorts the list of tutors based on the string param passed in
+     * Updates the listview immediately
+     */
+    public void sortList(String sortBy){
         CompareTutors t = new CompareTutors();
         if(sortBy.equals("name")){
             Collections.sort(listOfTutors,t.NAME);
@@ -169,28 +174,40 @@ public class TutorListActivity extends ActionBarActivity {
         else if(sortBy.equals("distance")){
             Collections.sort(listOfTutors,t.DISTANCE);
         }
-        listView.setAdapter(adapter);
+        this.listView.setAdapter(this.adapter);
     }
 
-    @Override
+
+
+        @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_tutor_list, menu);
-        return true;
+            return true;
     }
 
+    /*
+     *handles ActionBar item clicks. (sorting)
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.sortName) {
+            sortList("name");
             return true;
         }
-
+        else if (id == R.id.sortRating) {
+            sortList("rating");
+            return true;
+        }
+        else if (id == R.id.sortPrice) {
+            sortList("price");
+            return true;
+        }
+        else if (id == R.id.sortDistance) {
+            sortList("distance");
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

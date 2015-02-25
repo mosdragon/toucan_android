@@ -22,8 +22,8 @@ import java.util.ArrayList;
 
 public class TutorChooseSubjectsActivity extends Activity {
 
-    String[] subjectList = {"Calculus 1", "Calculus II", "Physics I", "Physics II", "Chemistry I", "Biology I"};
-    ArrayList<Long> chosenList = new ArrayList<Long>(subjectList.length);
+    private String[] subjectList = {"Calculus 1", "Calculus II", "Physics I", "Physics II", "Chemistry I", "Biology I"};
+    private ArrayList<Long> chosenList = new ArrayList<Long>(subjectList.length);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,7 @@ public class TutorChooseSubjectsActivity extends Activity {
         for (int i = 0; i < subjectList.length; ++i) {
             list.add(subjectList[i]);
         }
+        //updates list of selected subjects
         ListView listOfSubjects = (ListView) findViewById(R.id.chooseSubjectList);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.tutor_choose_subject_item, R.id.subject,list);
         listOfSubjects.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -49,6 +50,7 @@ public class TutorChooseSubjectsActivity extends Activity {
                 }
             }
         });
+        //choose button listener and handles error
         listOfSubjects.setAdapter(adapter);
         Button choose = (Button)findViewById(R.id.chooseButton);
         choose.setOnClickListener(new View.OnClickListener() {
