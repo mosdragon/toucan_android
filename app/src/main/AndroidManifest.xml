@@ -16,6 +16,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".views.InSessionActivity"
+            android:label="@string/title_activity_in_session" >
+        </activity>
+        <activity
+            android:name=".views.StartSessionActivity"
+            android:label="@string/title_activity_start_session" >
+        </activity>
+        <activity
+            android:name=".views.SessionInProgressActivity"
+            android:label="@string/title_activity_session_in_progress"
+            android:parentActivityName=".views.StartSessionActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.toucantutor.toucan.views.StartSessionActivity" />
+        </activity>
+        <activity
+            android:name=".views.SessionSummaryActivity"
+            android:label="@string/title_activity_session_summary"
+            android:parentActivityName=".StartSessionActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="StartSessionActivity" />
+        </activity>
     </application>
 
 </manifest>
