@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tutorName"
+        android:text="NAME"
+        />
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tutorEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EMAIL"
+        android:layout_below="@+id/tutorName"
+        />
+
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tutorCertification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Is Certified"
+        android:layout_below="@+id/tutorEmail"
+        />
+
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tutorPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PHONE"
+        android:layout_below="@+id/tutorEmail"
+        />
+
+
+
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tutorRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RATING"
+        android:layout_below="@+id/tutorPhoneNumber"
+        />
+
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tutorDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DISTANCE"
+        android:layout_below="@+id/tutorRating"
+        />
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tutorPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PRICE"
+        android:layout_below="@+id/tutorDistance"
+        />
+    <Button
+        android:layout_centerHorizontal="true"
+        android:id="@+id/choose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CHOOSE"
+        android:layout_below="@id/tutorDistance"
+        android:layout_marginTop="30dp"
+        />
+
+
+
+
+</RelativeLayout>

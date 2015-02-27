@@ -1,4 +1,4 @@
-package me.toucantutor.toucan.views;
+package me.toucantutor.toucan.views.session;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
