@@ -49,6 +49,7 @@ public class SessionInProgressActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_in_progress);   // isTutor = false;
+        isTutor = true;
         setDisplay(isTutor, isInSession);
     }
 

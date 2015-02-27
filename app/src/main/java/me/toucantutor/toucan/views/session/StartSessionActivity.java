@@ -26,6 +26,7 @@ public class StartSessionActivity extends ActionBarActivity {
         setContentView(R.layout.activity_start_session);
 
         isTutor = false;
+        isTutor = true;
         //for now I'm only dealing with them starting a new session
         //for old sessions, I will need the session time and the users in the session
         setDisplay(isTutor);

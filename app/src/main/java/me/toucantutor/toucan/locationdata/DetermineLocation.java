@@ -11,6 +11,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import me.toucantutor.toucan.util.MapsClientCallback;
+
 /**
  * Created by Osama on 02/19/15.
  */
@@ -21,7 +23,7 @@ public class DetermineLocation implements GoogleApiClient.ConnectionCallbacks,
     private static Location location;
     private static GoogleApiClient googleApiClient;
     private static LocationRequest locationRequest;
-    private static Activity activity;
+    private static MapsClientCallback activity;
 
     //        Want updates every 3 seconds
     private static final long TIME = 1000 * 3;
@@ -37,7 +39,7 @@ public class DetermineLocation implements GoogleApiClient.ConnectionCallbacks,
      * It will create the API client and take care of setting up location updates.
      * @param act, a reference to the launch/home activity
      */
-    public static void createInstance(Activity act) {
+    public static void createInstance(MapsClientCallback act) {
         DetermineLocation.clear();
         activity = act;
         instance = new DetermineLocation();
@@ -45,7 +47,7 @@ public class DetermineLocation implements GoogleApiClient.ConnectionCallbacks,
     }
 
     protected static synchronized void createApiClient() {
-        googleApiClient = new GoogleApiClient.Builder(activity)
+        googleApiClient = new GoogleApiClient.Builder((Activity) activity)
                 .addConnectionCallbacks(instance)
                 .addOnConnectionFailedListener(instance)
                 .addApi(LocationServices.API)
@@ -57,7 +59,8 @@ public class DetermineLocation implements GoogleApiClient.ConnectionCallbacks,
         locationRequest = new LocationRequest();
         locationRequest.setInterval(TIME);
         locationRequest.setSmallestDisplacement(DISTANCE);
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+//        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
     /**
@@ -65,7 +68,7 @@ public class DetermineLocation implements GoogleApiClient.ConnectionCallbacks,
      */
     public static void connect() {
         if (true && googleApiClient != null) {
-            Log.d("connect method", "~~~~~~~not null~~~~");
+            Log.d("DetermineLocation - connect method", "~~~~~~~not null~~~~");
             googleApiClient.connect();
         }
     }
@@ -96,11 +99,12 @@ public class DetermineLocation implements GoogleApiClient.ConnectionCallbacks,
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.d("onConnect","~~~~~~~called~~~~~~");
+        Log.d("DetermineLocation - onConnect","~~~~~~~called~~~~~~");
         Location loc = LocationServices.FusedLocationApi.getLastLocation(
                 googleApiClient);
         DetermineLocation.setLocation(loc);
         startLocationUpdates();
+        activity.clientFinished();
     }
 
     protected void startLocationUpdates() {
