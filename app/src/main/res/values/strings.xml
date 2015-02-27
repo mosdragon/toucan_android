@@ -4,5 +4,39 @@
     <string name="app_name">Toucan Tutoring</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_in_session">InSessionActivity</string>
+    <string name="title_activity_start_session">StartSessionActivity</string>
+    <string name="title_activity_session_in_progress">SessionInProgressActivity</string>
+    <string name="tutee_meetup_message">Your tutor has been notified of your request and should contact you shortly.
+    After you have set up a time and place to meet, press below to continue.</string>
+    <string name="tutor_request">You have a new tutoring request!</string>
+    <string name="tutor_meetup_message">Call the number below to set up a meeting time and place.
+    Once you meet up with your student, begin the session on both your and your students\' device.</string>
+    <string name="tutee_begin_message">Once you meet up with your tutor make sure you both press
+    the begin session button below.</string>
+    <string name="Course">Course: </string>
+    <string name="studentName">Student Name: </string>
+    <string name="phoneNumber">Phone Number: </string>
+    <string name="DoubleCheck">Are you sure you would like to cancel your request?</string>
+    <string name="ImpInfo">Important Information - Please Read:</string>
+    <string name="tutorInstructions">As a tutor it is your responsibility to contact your student at
+    the number and set up an appropriate time and place to meet. Once you are both at the tutoring location,
+    you must BOTH press the begin session button on your respective mobile devices. In order to get paid
+    accurately for your services, before beginning the tutoring session make sure that BOTH you and your
+    student press the begin session button.</string>
+    <string name="tuteeInstructions">After your tutoring session is over make sure BOTH you and your tutor
+    press the end session button. You may be overcharged if you do not ensure that both you and your tutor
+        end the session.</string>
+    <string name="endSessionCheck">Are you sure you want to end this tutoring session?</string>
+    <string name="Continue">Continue</string>
+    <string name="AcceptReq">Accept Request</string>
+    <string name="begin_session_button">Begin Session</string>
+    <string name="end_session_button">End Session</string>
+    <string name="sessionInProg">Session in Progress</string>
+    <string name="timerStart">0:00:00</string>
+    <string name="title_activity_session_summary">SessionSummaryActivity</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
 
 </resources>
