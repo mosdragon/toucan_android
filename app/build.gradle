@@ -5,7 +5,7 @@ android {
         team_debug {
             keyAlias 'android_debug'
             keyPassword 'toucan101'
-            storeFile file('/home/osama/AndroidStudioProjects/toucan_android/debug.keystore')
+            storeFile file('debug.keystore')
             storePassword 'toucan101'
         }
     }
