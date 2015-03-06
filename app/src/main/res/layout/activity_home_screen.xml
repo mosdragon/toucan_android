@@ -3,33 +3,52 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".HomeScreenActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="#2EB8E6" tools:context=".HomeScreenActivity">
 
     <TextView android:text="@string/hello_world"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/hello_world"/>
+        android:id="@+id/hello_world"
+        android:layout_gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button1"
         android:text="Tutor List"
-        android:layout_below="@id/hello_world" />
+        android:background="#C6C6C6"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/hello_world"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:text="Choose Subject"
+        android:background="#C6C6C6"
+        android:padding="10dp"
         android:layout_height="wrap_content"
         android:id="@+id/button2"
-        android:layout_below="@id/button1" />
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/button1"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:text="Begin Session"
+        android:background="#C6C6C6"
+        android:padding="10dp"
         android:onClick="toSession"
         android:layout_height="wrap_content"
         android:id="@+id/button3"
-        android:layout_below="@id/button2" />
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/button2"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
