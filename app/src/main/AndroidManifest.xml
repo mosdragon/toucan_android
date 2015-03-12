@@ -21,10 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity-->
-            <!--android:name=".views.session.InSessionActivity"-->
-            <!--android:label="@string/title_activity_in_session" >-->
-        <!--</activity>-->
+        <!-- <activity -->
+        <!-- android:name=".views.session.InSessionActivity" -->
+        <!-- android:label="@string/title_activity_in_session" > -->
+        <!-- </activity> -->
         <activity
             android:name=".views.session.StartSessionActivity"
             android:label="@string/title_activity_start_session" >
@@ -56,6 +56,10 @@
         <activity
             android:name=".views.tutorlist.TutorChooseSubjectsActivity"
             android:label="@string/title_activity_tutor_choose_subjects" >
+        </activity>
+        <activity
+            android:name=".views.tutorlist.ChooseSubjectActivity"
+            android:label="@string/title_activity_choose_subject" >
         </activity>
     </application>
 

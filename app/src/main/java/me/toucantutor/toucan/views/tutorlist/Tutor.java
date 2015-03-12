@@ -55,7 +55,7 @@ public class Tutor implements Serializable{
         String s="";
         try{
             s = input.get(fieldName).getAsString();
-        }catch(Exception e){Log.v("","ASDFASDFASDF");};
+        }catch(Exception e){};
         return s;
     }
 

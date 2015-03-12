@@ -24,7 +24,7 @@ public class HomeScreenActivity extends ActionBarActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplication(),TutorListActivity.class);
+                Intent i = new Intent(getApplication(),ChooseSubjectActivity.class);
                 startActivity(i);
             }
         });

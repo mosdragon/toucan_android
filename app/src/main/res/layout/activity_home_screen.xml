@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button1"
-        android:text="Tutor List"
+        android:text="(Student)Choose Subject"
         android:background="#C6C6C6"
         android:padding="10dp"
         android:layout_gravity="center"
@@ -28,7 +28,7 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:text="Choose Subject"
+        android:text="(Tutor)Choose Subject"
         android:background="#C6C6C6"
         android:padding="10dp"
         android:layout_height="wrap_content"

@@ -12,22 +12,45 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import me.toucantutor.toucan.R;
+import me.toucantutor.toucan.tasks.HttpTask;
+import me.toucantutor.toucan.util.AppConstants;
 import me.toucantutor.toucan.views.session.StartSessionActivity;
 
 
 public class TutorDetailActivity extends ActionBarActivity {
 
-    Tutor chosenTutor;
+    private Tutor chosenTutor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutor_detail);
+        selectTutorRequest();
         Bundle b = getIntent().getExtras();
         chosenTutor = (Tutor)b.getSerializable("tutorChosen");
         createLayout();
 
+    }
+
+    public JsonObject selectTutorRequest(){
+        Gson gson = new Gson();
+        JsonArray array = new JsonArray();
+        JsonObject object = new JsonObject();
+        object.addProperty("tutorId", 3234113);
+        object.addProperty("userId", 551234);
+        object.addProperty("course", "Physics I");
+        object.addProperty("studentPhone", "7709382274");
+        String jsonString = gson.toJson(object);
+        HttpTask task = new HttpTask(jsonString, AppConstants.SELECT_TUTOR_URL);
+        //should get JsonString from task. Set this.jsonString = return;
+        //some Json string is returned
+        return null;
     }
 
     public void createLayout(){
@@ -47,9 +70,6 @@ public class TutorDetailActivity extends ActionBarActivity {
         if(chosenTutor.getCertification()==true){
             certification.setText("Certified");
             certification.setPadding(82,10,0,10);
-//            ViewGroup.LayoutParams rlp = certification.get();
-//            rlp.; // llp.setMargins(left, top, right, bottom);
-//            certification.setLayoutParams(rlp);
             certified.setVisibility(View.VISIBLE);
         }
         else{
