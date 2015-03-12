@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.RatingBar;
+import android.widget.ImageView;
+import java.util.Random;
 
 import java.util.List;
 
@@ -36,9 +39,11 @@ public class TutorListAdapter extends ArrayAdapter<Tutor> {
     public View getView(int position, View convertView, ViewGroup parent) {
         //add conditions of list is empty
         TextView nameField;
-        TextView ratingField;
+        RatingBar ratingField;
+        TextView ratingValue;
         TextView priceField;
         TextView distanceField;
+        ImageView certified;
         View row = convertView;
 
         //inflates the row to create individual rows of the list
@@ -48,16 +53,25 @@ public class TutorListAdapter extends ArrayAdapter<Tutor> {
 
         //attaches textView fields to those in the xml file
         nameField = (TextView) row.findViewById(R.id.name);
-        ratingField = (TextView) row.findViewById(R.id.rating);
+        ratingField = (RatingBar) row.findViewById(R.id.rating);
+        ratingValue = (TextView) row.findViewById(R.id.ratingValue);
         priceField = (TextView) row.findViewById(R.id.price);
         distanceField = (TextView) row.findViewById(R.id.distance);
+        certified = (ImageView) row.findViewById(R.id.certified);
 
         //sets the textview items to values obtained from tutor
         currentTutor = ( Tutor ) tutorList.get(position);
-        nameField.setText(currentTutor.getName());
-        ratingField.setText(currentTutor.getRating()+"  (rating)");
-        priceField.setText(currentTutor.getPrice()+"  (price)");
-        distanceField.setText(currentTutor.getDistance()+"  (dist)");
+        nameField.setText(currentTutor.getName().length() < 20
+                ? currentTutor.getName().toUpperCase()
+                : currentTutor.getName().substring(0, 20).toUpperCase());
+        ratingField.setRating(currentTutor.getRating().floatValue());
+        ratingValue.setText(currentTutor.getRating() + "");
+        priceField.setText("$" + (currentTutor.getPrice().intValue() < 10
+                ? "0" + currentTutor.getPrice().intValue()
+                : currentTutor.getPrice().intValue()));
+        distanceField.setText(currentTutor.getDistance().intValue()+" mi.");
+        Random rand = new Random();
+        certified.setVisibility(currentTutor.getCertification() ? View.VISIBLE : View.INVISIBLE);
         return row;
     }
 
