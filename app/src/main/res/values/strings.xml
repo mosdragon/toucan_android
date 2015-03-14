@@ -51,5 +51,6 @@
     </string-array>
 
     <string name="title_activity_course_list">CourseListActivity</string>
+    <string name="title_activity_choose_subject">ChooseSubjectActivity</string>
 
 </resources>

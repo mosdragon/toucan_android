@@ -1,33 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F0F0F0">
 
     <TextView
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center_horizontal"
+        android:padding="20dp"
         android:id="@+id/tutorName"
         android:text="NAME"
+        android:background="#2EB8E6"
+        android:textSize="40dp" />
+
+
+
+
+
+
+    <TextView
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:background="#C6C6C6"
+        android:layout_alignBottom="@+id/tutorCertification"
+        android:layout_below="@+id/tutorName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"/>
+
+
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/tutorCertification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Certified"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="20dp"
+        android:layout_below="@+id/tutorName"
+        android:background="#C6C6C6" />
+
+
+    <ImageView
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:gravity="end"
+        android:src="@drawable/ic_launcher"
+        android:id="@+id/tutorCertSymbol"
+        android:layout_alignTop="@+id/tutorCertification"
+        android:layout_toRightOf="@+id/distanceText"
+        android:layout_marginLeft="-12dp"
+        android:background="#C6C6C6"
+        android:layout_alignBottom="@+id/tutorCertification" />
+
+
+
+
+
+
+
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/emailText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textSize="18dp"
+        android:layout_alignRight="@+id/distanceText"
+        android:text="EMAIL |   "
+        android:layout_below="@+id/tutorCertification"
         />
+
     <TextView
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_centerHorizontal="true"
         android:id="@+id/tutorEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_toRightOf="@+id/priceText"
+        android:textSize="18dp"
         android:text="EMAIL"
-        android:layout_below="@+id/tutorName"
+        android:layout_below="@+id/tutorCertification"
         />
+
+
+
+
 
     <TextView
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_centerHorizontal="true"
-        android:id="@+id/tutorCertification"
+        android:id="@+id/phoneText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Is Certified"
+        android:layout_marginTop="10dp"
+        android:layout_alignRight="@+id/distanceText"
+        android:textSize="18dp"
+        android:text="PHONE |   "
         android:layout_below="@+id/tutorEmail"
         />
 
@@ -37,19 +116,29 @@
         android:id="@+id/tutorPhoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/priceText"
+        android:textSize="18dp"
         android:text="PHONE"
         android:layout_below="@+id/tutorEmail"
         />
 
 
 
+
+
+
     <TextView
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_centerHorizontal="true"
-        android:id="@+id/tutorRating"
+        android:id="@+id/distanceText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RATING"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentLeft="true"
+        android:textSize="18dp"
+        android:text="DISTANCE |   "
         android:layout_below="@+id/tutorPhoneNumber"
         />
 
@@ -59,28 +148,95 @@
         android:id="@+id/tutorDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/priceText"
+        android:textSize="18dp"
         android:text="DISTANCE"
-        android:layout_below="@+id/tutorRating"
+        android:layout_below="@+id/tutorPhoneNumber"
         />
+
+
+
+
+
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/priceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignRight="@+id/distanceText"
+        android:textSize="18dp"
+        android:text="PRICE |   "
+        android:layout_below="@+id/tutorDistance"
+        />
+
     <TextView
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_centerHorizontal="true"
         android:id="@+id/tutorPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/priceText"
+        android:textSize="18dp"
         android:text="PRICE"
         android:layout_below="@+id/tutorDistance"
         />
-    <Button
+
+
+
+
+
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_centerHorizontal="true"
+        android:id="@+id/tutorRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:paddingTop="10dp"
+        android:gravity="center"
+        android:background="#C6C6C6"
+        android:text="RATING"
+        android:layout_above="@+id/tutorRatingBar"
+        android:textSize="22dp" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tutorRatingBar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:isIndicator="true"
+        android:background="#C6C6C6"
+        android:layout_above="@+id/choose"
+        android:paddingBottom="20dp"
+        android:paddingLeft="60dp"
+        android:paddingRight="60dp"
+        android:numStars="5"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+
+
+
+    <Button
         android:id="@+id/choose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CHOOSE"
-        android:layout_below="@id/tutorDistance"
-        android:layout_marginTop="30dp"
-        />
-
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#2EB8E6"
+        android:textSize="22dp" />
 
 
 

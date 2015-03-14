@@ -1,7 +1,9 @@
 package me.toucantutor.toucan.views.tutorlist;
 
 import android.location.Location;
+import android.util.Log;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
@@ -30,7 +32,7 @@ public class Tutor implements Serializable{
     private Double longitude;
     private String phoneNumber;
 
-    public Tutor(JSONObject input){
+    public Tutor(JsonObject input){
         setCertification(fetch(input,"certification"));
         //setAvailability(fetch(input,"availability"));
         setId(fetch(input, "id"));
@@ -48,10 +50,11 @@ public class Tutor implements Serializable{
 
     }
 
-    private String fetch(JSONObject input, String fieldName) {
+    private String fetch(JsonObject input, String fieldName) {
+        Log.v("","FIELDNAME "+fieldName);
         String s="";
         try{
-            s = input.get(fieldName).toString();
+            s = input.get(fieldName).getAsString();
         }catch(Exception e){};
         return s;
     }
@@ -132,11 +135,14 @@ public class Tutor implements Serializable{
         tutorLocation.setLatitude(latitude);
         tutorLocation.setLongitude(longitude);
         Location currentLocation = new Location("");
-        //get currentlocation from location class. This is for testing
-        currentLocation.setLongitude(33.947688);
+        //get currentlocation from location class. This is for testing--use locationData class
+        currentLocation.setLatitude(33.947688);
         currentLocation.setLongitude(-83.346157);
         //claimed to be the distance in miles btw points. Doesn't seem like it...
         double distance = currentLocation.distanceTo(tutorLocation)*0.000621371;
+        distance = distance*100;
+        distance = Math.round(distance);
+        distance = distance /100;
         this.distance = distance;
     }
     public Double getDistance(){

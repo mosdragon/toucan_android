@@ -13,6 +13,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,11 +28,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.GenericArrayType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import me.toucantutor.toucan.R;
+import me.toucantutor.toucan.tasks.HttpTask;
+import me.toucantutor.toucan.util.AppConstants;
+import me.toucantutor.toucan.util.Requests;
 
 
 public class TutorListActivity extends ActionBarActivity{
@@ -45,9 +57,45 @@ public class TutorListActivity extends ActionBarActivity{
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         setContentView(R.layout.tutor_list);
-        createObjects();
+        findActiveTutors();
         buildData(readRawTextFile(this));
         createListView();
+    }
+
+    //need to get the parameters needed for the request
+    public JsonObject findActiveTutors(){
+        Gson gson = new Gson();
+        JsonArray array = new JsonArray();
+        JsonObject object = new JsonObject();
+        object.addProperty("latitude", 33);
+        object.addProperty("longitude", 55);
+        object.addProperty("userid", "213412435");
+        object.addProperty("course", "calc1");
+        object.addProperty("miles", 1234.4);
+        object.addProperty("endTime", 12);
+        String jsonString = gson.toJson(object);
+        HttpTask task = new HttpTask(jsonString,AppConstants.FIND_ACTIVE_TUTORS_URL);
+        //should get JsonString from task. Set this.jsonString = return;
+        return null;
+    }
+
+    /*
+     *parses json file. Separates tutors and creates Tutor objects
+     *for each tutor listed in the JSON file. Adds them to listOfTutors
+     */
+    private void buildData(String jsonString) {
+        try {
+            JsonElement elem = new JsonParser().parse(jsonString);
+            JsonObject entireObject = elem.getAsJsonObject();
+            JsonElement arrayElement = entireObject.get("contacts");
+            JsonArray array = arrayElement.getAsJsonArray();
+            numberOfTutors = array.size();
+            for(int x=0;x<numberOfTutors;x++){
+                JsonObject tutorObject = array.get(x).getAsJsonObject();
+                Tutor t = new Tutor(tutorObject);
+                listOfTutors.add(t);
+            }
+        } catch (Exception e) {};
     }
 
     /*
@@ -67,82 +115,6 @@ public class TutorListActivity extends ActionBarActivity{
                 startActivity(i);
             }
         });
-    }
-
-    /*
-     *Reads JSON text file. *Tester until API is set up*
-     */
-    public String readRawTextFile(Context ctx)
-    {
-        Log.v("","READING RAW TEXT");
-        Resources res = getResources();
-        InputStream inputStream = res.openRawResource(R.raw.jsonfile);
-
-        InputStreamReader inputreader = new InputStreamReader(inputStream);
-        BufferedReader buffreader = new BufferedReader(inputreader);
-        String line;
-        StringBuilder text = new StringBuilder();
-
-        try {
-            while (( line = buffreader.readLine()) != null) {
-                text.append(line);
-                text.append('\n');
-            }
-        } catch (IOException e) {
-            return null;
-        }
-        return text.toString();
-    }
-
-    /*
-     *gets json file from server
-     */
-    private void createObjects(){
-        Log.v("","Creating Tutor objects");
-//        try {
-//            HttpClient httpclient = new DefaultHttpClient();
-//            HttpResponse httpResponse = httpclient.execute(new
-//                    HttpGet(testWebsite));
-//            stream = httpResponse.getEntity().getContent();
-//
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "iso-8859-1"),8);
-//            StringBuilder sb = new StringBuilder();
-//            String line = null;
-//            while((line=reader.readLine())!=null){
-//                sb.append(line+"\n");
-//            }
-//            stream.close();
-//            String result = sb.toString();
-//            System.out.println(result);
-//            TextView firstName = (TextView)findViewById(R.id.firstName);
-//            firstName.setText(result);
-//            buildData(result);
-//        } catch (ClientProtocolException e) {
-//            Log.e("[AsyncTask]", "Network Error", e);
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            Log.e("[AsyncTask]", "Network Error", e);
-//            e.printStackTrace();
-//        }
-    }
-
-
-    /*
-     *parses json file. Separates tutors and creates Tutor objects
-     *for each tutor listed in the JSON file. Adds them to listOfTutors
-     */
-    private void buildData(String jsonString) {
-        try {
-            JSONObject object = new JSONObject(jsonString);
-            JSONArray objectArray = object.getJSONArray("contacts");
-            numberOfTutors = objectArray.length();
-            for (int x = 0; x < numberOfTutors; x++) {
-                Log.v("","ANOTHER TUTOR");
-                JSONObject current = objectArray.getJSONObject(x);
-                Tutor t = new Tutor(current);
-                listOfTutors.add(t);
-            }
-        } catch (Exception e) {};
     }
 
     /*
@@ -166,9 +138,7 @@ public class TutorListActivity extends ActionBarActivity{
         this.listView.setAdapter(this.adapter);
     }
 
-
-
-        @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_tutor_list, menu);
@@ -200,7 +170,29 @@ public class TutorListActivity extends ActionBarActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+     *Reads JSON text file. *Tester until API is set up*
+     */
+    public String readRawTextFile(Context ctx)
+    {
+        Log.v("","READING RAW TEXT");
+        Resources res = getResources();
+        InputStream inputStream = res.openRawResource(R.raw.jsonfile);
 
+        InputStreamReader inputreader = new InputStreamReader(inputStream);
+        BufferedReader buffreader = new BufferedReader(inputreader);
+        String line;
+        StringBuilder text = new StringBuilder();
 
+        try {
+            while (( line = buffreader.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
+            }
+        } catch (IOException e) {
+            return null;
+        }
+        return text.toString();
+    }
 
 }
