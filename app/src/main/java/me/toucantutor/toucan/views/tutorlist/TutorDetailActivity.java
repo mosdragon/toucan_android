@@ -13,17 +13,19 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.android.gms.gcm.Task;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.tasks.HttpTask;
+import me.toucantutor.toucan.tasks.TaskCallback;
 import me.toucantutor.toucan.util.AppConstants;
 import me.toucantutor.toucan.views.session.StartSessionActivity;
 
 
-public class TutorDetailActivity extends ActionBarActivity {
+public class TutorDetailActivity extends ActionBarActivity implements TaskCallback {
 
     private Tutor chosenTutor;
 
@@ -46,8 +48,8 @@ public class TutorDetailActivity extends ActionBarActivity {
         object.addProperty("userId", 551234);
         object.addProperty("course", "Physics I");
         object.addProperty("studentPhone", "7709382274");
-        String jsonString = gson.toJson(object);
-        HttpTask task = new HttpTask(jsonString, AppConstants.SELECT_TUTOR_URL);
+//        String jsonString = gson.toJson(object);
+        HttpTask task = new HttpTask(this, object, AppConstants.SELECT_TUTOR_URL);
         //should get JsonString from task. Set this.jsonString = return;
         //some Json string is returned
         return null;
@@ -111,5 +113,15 @@ public class TutorDetailActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void taskSuccess(JsonObject json) {
+
+    }
+
+    @Override
+    public void taskFail(JsonObject json) {
+
     }
 }

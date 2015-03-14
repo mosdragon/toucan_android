@@ -128,9 +128,9 @@ public class GetCoursesTask extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(aVoid);
 
         if (failure) {
-            callback.taskFail();
+            callback.taskFail(null);
         } else {
-            callback.taskSuccess(courses);
+            callback.taskSuccess(null);
         }
 
     }

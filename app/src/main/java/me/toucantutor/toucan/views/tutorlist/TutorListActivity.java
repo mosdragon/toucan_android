@@ -35,11 +35,12 @@ import java.util.List;
 
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.tasks.HttpTask;
+import me.toucantutor.toucan.tasks.TaskCallback;
 import me.toucantutor.toucan.util.AppConstants;
 import me.toucantutor.toucan.util.Requests;
 
 
-public class TutorListActivity extends ActionBarActivity{
+public class TutorListActivity extends ActionBarActivity implements TaskCallback{
 
 
     private int numberOfTutors=0;
@@ -64,8 +65,8 @@ public class TutorListActivity extends ActionBarActivity{
 
     //need to get the parameters needed for the request
     public JsonObject findActiveTutors(){
-        Gson gson = new Gson();
-        JsonArray array = new JsonArray();
+//        Gson gson = new Gson();
+//        JsonArray array = new JsonArray();
         JsonObject object = new JsonObject();
         object.addProperty("latitude", 33);
         object.addProperty("longitude", 55);
@@ -73,8 +74,9 @@ public class TutorListActivity extends ActionBarActivity{
         object.addProperty("course", "calc1");
         object.addProperty("miles", 1234.4);
         object.addProperty("endTime", 12);
-        String jsonString = gson.toJson(object);
-        HttpTask task = new HttpTask(jsonString,AppConstants.FIND_ACTIVE_TUTORS_URL);
+//        String jsonString = gson.toJson(object);
+
+        HttpTask task = new HttpTask(this, object, AppConstants.FIND_ACTIVE_TUTORS_URL);
         //should get JsonString from task. Set this.jsonString = return;
         return null;
     }
@@ -195,4 +197,13 @@ public class TutorListActivity extends ActionBarActivity{
         return text.toString();
     }
 
+    @Override
+    public void taskSuccess(JsonObject json) {
+
+    }
+
+    @Override
+    public void taskFail(JsonObject json) {
+
+    }
 }

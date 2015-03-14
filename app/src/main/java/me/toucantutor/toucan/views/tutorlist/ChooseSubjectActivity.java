@@ -25,10 +25,11 @@ import java.util.ArrayList;
 
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.tasks.HttpTask;
+import me.toucantutor.toucan.tasks.TaskCallback;
 import me.toucantutor.toucan.util.AppConstants;
 
 
-public class ChooseSubjectActivity extends Activity {
+public class ChooseSubjectActivity extends Activity implements TaskCallback {
 
     private String[] newSubjectList;
     private String[] subjectList = {"Calculus 1", "Calculus II", "Physics I", "Physics II", "Chemistry I", "Biology I"};
@@ -70,7 +71,7 @@ public class ChooseSubjectActivity extends Activity {
         object.addProperty("latitude", 33);
         object.addProperty("longitude", 55);
         String jsonString = gson.toJson(object);
-        HttpTask task = new HttpTask(jsonString,AppConstants.GET_COURSES_URL);
+        HttpTask task = new HttpTask(this, object, AppConstants.GET_COURSES_URL);
         //should get JsonString from task. Set this.jsonString = return;
         String returnedJsonString = "[ [\"SPAN 1001\", \"University of Georgia(UGA)\"], [\"PSYC 2001\", \"University of Georgia(UGA)\"], ]";
 
@@ -106,5 +107,15 @@ public class ChooseSubjectActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void taskSuccess(JsonObject json) {
+
+    }
+
+    @Override
+    public void taskFail(JsonObject json) {
+
     }
 }
