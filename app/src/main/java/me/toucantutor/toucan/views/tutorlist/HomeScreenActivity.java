@@ -14,6 +14,7 @@ import android.widget.TextView;
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.locationdata.DetermineLocation;
 import me.toucantutor.toucan.util.MapsClientCallback;
+import me.toucantutor.toucan.views.courseList.CourseListActivity;
 import me.toucantutor.toucan.views.session.StartSessionActivity;
 
 
@@ -48,6 +49,11 @@ public class HomeScreenActivity extends ActionBarActivity implements MapsClientC
     protected void onStart() {
         super.onStart();
         DetermineLocation.connect();
+    }
+
+    public void findCourses(View view) {
+        Intent intent = new Intent(this, CourseListActivity.class);
+        startActivity(intent);
     }
 
     @Override
