@@ -1,5 +1,9 @@
 package me.toucantutor.toucan.views.courseList;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -7,7 +11,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,25 +33,27 @@ import me.toucantutor.toucan.locationdata.DetermineLocation;
 import me.toucantutor.toucan.tasks.GetCoursesTask;
 import me.toucantutor.toucan.tasks.HttpTask;
 import me.toucantutor.toucan.tasks.TaskCallback;
+import me.toucantutor.toucan.views.tutorlist.HomeScreenActivity;
+import me.toucantutor.toucan.views.tutorlist.TutorChooseSubjectsActivity;
+import me.toucantutor.toucan.views.tutorlist.TutorListActivity;
 
 public class CourseListActivity extends ActionBarActivity implements TaskCallback {
 
-    private List<String> courses;
+    private static final String url = "sessions/getCourses";
+    private List<Course> courses;
     private HttpTask task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_list);
-//        GetCoursesTask task = new GetCoursesTask(this);
-//        task.execute();
 
         JsonObject json = new JsonObject();
         Location location = DetermineLocation.getLocation();
         json.addProperty("latitude", location.getLatitude());
         json.addProperty("longitude", location.getLongitude());
 
-        task = new HttpTask(this, json, "sessions/getCourses");
+        task = new HttpTask(this, json, url);
         task.execute();
     }
 
@@ -59,50 +68,71 @@ public class CourseListActivity extends ActionBarActivity implements TaskCallbac
     @Override
     public void taskSuccess(JsonObject json) {
         Log.d("taskSuccess called", "-----true");
-//        List<String> courses = (List<String>) input[0];
         parseData(json);
-        ListView listView = (ListView) findViewById(R.id.course_list);
-        ListAdapter listAdapter = new ArrayAdapter<String>(this,
-                R.layout.activity_course_list, R.id.listHolder, courses);
+        ListView listView = (ListView) findViewById(R.id.courseList);
+        ListAdapter listAdapter = new CourseAdapter(this,
+                R.layout.activity_course_list, courses);
 //        new ArrayAdapter<String>()
         listView.setAdapter(listAdapter);
+
+//        ListView listOfSubjects = (ListView) findViewById(R.id.chooseSubjectList);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.tutor_choose_subject_item, R.id.subject,list);
     }
 
     private void parseData(JsonObject json) {
-        boolean coursesFound = json.get("coursesFound").getAsBoolean();
-        courses = new ArrayList<>();
-        if (coursesFound) {
-            JsonElement courseData = json.get("courseData");
+        if (json != null) {
+            boolean coursesFound = json.get("coursesFound").getAsBoolean();
+            courses = new ArrayList<>();
+            if (coursesFound) {
+                JsonElement courseData = json.get("courseData");
 //            If there is only one found course, GSON treats courseData as a singular JsonObject
 //            So if it can be treated as an array, iterate through
-            if (courseData.isJsonArray()) {
-                JsonArray outer = courseData.getAsJsonArray();
-                for (JsonElement je : outer) {
-                    Log.d("Course and School", je.toString());
-                    JsonObject inner = je.getAsJsonObject();
-                    String course = inner.get("coursename").getAsString();
-                    String school = inner.get("school").getAsString();
-
-                    String toAdd = course + "\n" + school;
-                    courses.add(toAdd);
+                if (courseData.isJsonArray()) {
+                    JsonArray outer = courseData.getAsJsonArray();
+                    for (JsonElement je : outer) {
+                        JsonObject courseInfo = je.getAsJsonObject();
+                        Course course = new Course(courseInfo);
+                        courses.add(course);
+                    }
+                } else {
+                    JsonObject courseInfo = courseData.getAsJsonObject();
+                    Course course = new Course(courseInfo);
+                    courses.add(course);
                 }
-            } else {
-                JsonObject inner = courseData.getAsJsonObject();
-                String course = inner.get("coursename").getAsString();
-                String school = inner.get("school").getAsString();
 
-                String toAdd = course + "\n" + school;
-                courses.add(toAdd);
+                setList();
             }
+        }  else {
+//            Do same thing as taskFail
+//            TextView textView = (TextView) findViewById(R.id.listHolder);
+//            textView.setText("Could not find any courses near you. Please get closer to the " +
+//                    "University of Georgia campus or try again later for better results.");
         }
+    }
+
+    private void setList() {
+        //updates list of selected subjects
+        ListView courseList = (ListView) findViewById(R.id.courseList);
+        ArrayAdapter<Course> adapter = new ArrayAdapter<>(this,
+                R.layout.course_item, R.id.subject, courses);
+        courseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CourseListActivity.this, TutorListActivity.class);
+                intent.putExtra("COURSE", courses.get(position));
+                startActivity(intent);
+            }
+        });
+        //choose button listener and handles error
+        courseList.setAdapter(adapter);
     }
 
     @Override
     public void taskFail(JsonObject json) {
         Log.d("taskFail called", "-----true");
-        TextView textView = (TextView) findViewById(R.id.listHolder);
-        textView.setText("Could not find any courses near you. Please get closer to the " +
-                "University of Georgia campus or try again later for better results.");
+//        TextView textView = (TextView) findViewById(R.id.listHolder);
+//        textView.setText("Could not find any courses near you. Please get closer to the " +
+//                "University of Georgia campus or try again later for better results.");
     }
 
     @Override
