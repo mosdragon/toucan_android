@@ -17,30 +17,48 @@ import java.util.Collections;
  */
 public class Tutor implements Serializable{
 
-    private boolean isCertified;
-    private String name;
-    private String userName;
-    private String password;
-    private long id;
-    private String email;
-    private Double distance;
-    private Double price;
-    private Double rating;
     private Double availablity;
+    private Double distance;
+    private Double rate;
+    private Double rating;
     private Location location;
-    private Double latitude;
-    private Double longitude;
+    private long tutorId;
+    private String email;
+    private String name;
     private String phoneNumber;
 
+    private String biography;
+    private String course;
+    private boolean isCertified;
+    private Double latitude;
+    private Double longitude;
+    private String major;
+
+
+//    "biography": "",
+//            "course": "PORT 2001",
+//            "experience": 0,
+//            "isCertified": true,
+//            "latitude": 33.300933,
+//            "longitude": -83.794122,
+//            "major": "",
+//            "name": "John Cena",
+//            "rate": 8,
+//            "rating": 0
+//            "reviews": [ ],
+//            "tutorId": 903778,
+//            "tutorPhone": "6783219900",
+//            "year": "",
+
+
     public Tutor(JsonObject input){
-        setCertification(fetch(input,"certification"));
+        setCertified(input.get("isCertified").getAsBoolean());
         //setAvailability(fetch(input,"availability"));
-        setId(fetch(input, "id"));
+        setTutorId(fetch(input, "tutorId"));
         setName(fetch(input, "name"));
-        setUserName(fetch(input, "username"));
         setEmail(fetch(input, "email"));
         setRating(fetch(input, "rating"));
-        setPrice(fetch(input, "price"));
+        setRate(fetch(input, "rate"));
         setLatitude(fetch(input, "latitude"));
         setLongitude(fetch(input, "longitude"));
         setDistance();
@@ -53,23 +71,27 @@ public class Tutor implements Serializable{
     private String fetch(JsonObject input, String fieldName) {
         Log.v("","FIELDNAME "+fieldName);
         String s="";
-        try{
+        try {
             s = input.get(fieldName).getAsString();
-        }catch(Exception e){};
+        } catch(Exception e){};
         return s;
     }
 
-    public void setCertification(String certified) { isCertified = Boolean.parseBoolean(certified); }
-    public boolean getCertification() { return isCertified; }
+    public void setCertified(Boolean isCertified) {
+        this.isCertified = isCertified;
+    }
+    public boolean getCertification() {
+        return isCertified;
+    }
 
     public void setPhoneNumber(String number) { phoneNumber = number; }
     public String getPhoneNumber() { return phoneNumber; }
 
-    public void setId(String id){
-        this.id = Long.parseLong(id);
+    public void setTutorId(String givenTutorId){
+        this.tutorId = Long.parseLong(givenTutorId);
     }
-    public long getId(){
-        return id;
+    public long getTutorId(){
+        return tutorId;
     }
 
     public void setName(String name){
@@ -77,13 +99,6 @@ public class Tutor implements Serializable{
     }
     public String getName(){
         return name;
-    }
-
-    public void setUserName(String userName){
-        this.userName = userName;
-    }
-    public String getUserName(){
-        return userName;
     }
 
     public void setEmail(String email){
@@ -107,11 +122,11 @@ public class Tutor implements Serializable{
         return availablity;
     }
 
-    public void setPrice(String price){
-        this.price = Double.parseDouble(price);
+    public void setRate(String rate){
+        this.rate = Double.parseDouble(rate);
     }
-    public Double getPrice(){
-        return price;
+    public Double getRate(){
+        return rate;
     }
 
     public void setLatitude(String latitude){
@@ -149,4 +164,27 @@ public class Tutor implements Serializable{
         return distance;
     }
 
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
 }

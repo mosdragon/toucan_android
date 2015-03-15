@@ -81,7 +81,7 @@ public class TutorDetailActivity extends ActionBarActivity implements TaskCallba
         phone.setText("" + chosenTutor.getPhoneNumber());
         ratingBar.setRating(chosenTutor.getRating().floatValue());
         distance.setText(chosenTutor.getDistance().intValue() + " mi.");
-        price.setText("$" + chosenTutor.getPrice().intValue());
+        price.setText("$" + chosenTutor.getRate().intValue());
         choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

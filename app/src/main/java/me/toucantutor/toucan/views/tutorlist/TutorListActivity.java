@@ -13,22 +13,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.GenericArrayType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +30,6 @@ import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.tasks.HttpTask;
 import me.toucantutor.toucan.tasks.TaskCallback;
 import me.toucantutor.toucan.util.AppConstants;
-import me.toucantutor.toucan.util.Requests;
 
 
 public class TutorListActivity extends ActionBarActivity implements TaskCallback{
@@ -57,7 +49,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
         super.onCreate(savedInstanceState);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        setContentView(R.layout.tutor_list);
+        setContentView(R.layout.activity_tutor_list);
         findActiveTutors();
         buildData(readRawTextFile(this));
         createListView();
@@ -105,7 +97,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
      */
     public void createListView(){
         Log.v("","CREATING LSITVIEW");
-        adapter = new TutorListAdapter(this, R.layout.tutor_list_item,listOfTutors);
+        adapter = new TutorListAdapter(this, R.layout.tutor_item,listOfTutors);
         listView = (ListView)findViewById(R.id.tutorListView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

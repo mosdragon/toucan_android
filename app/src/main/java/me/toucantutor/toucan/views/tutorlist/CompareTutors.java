@@ -59,12 +59,12 @@ public class CompareTutors {
                 public int compare(Tutor lhs, Tutor rhs) {
                     if (lhs == null && rhs == null) {
                         return 0;
-                    } else if (lhs == null || lhs.getPrice() == 0) {
+                    } else if (lhs == null || lhs.getRate() == 0) {
                         return 1;
-                    } else if (rhs == null || rhs.getPrice() == 0) {
+                    } else if (rhs == null || rhs.getRate() == 0) {
                         return -1;
                     } else {
-                        return lhs.getPrice().compareTo(rhs.getPrice());
+                        return lhs.getRate().compareTo(rhs.getRate());
                     }
                 }
             };
