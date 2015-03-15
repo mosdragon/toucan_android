@@ -48,4 +48,13 @@
         <item>Price</item>
         <item>Certifed</item>
     </string-array>
+
+    <string name="field_required">You must complete all required fields.</string>
+    <string name="invalid_credentials">
+        It looks like you don't have valid credentials for this account. Please try again.
+    </string>
+    <string name="invalid_password">
+        It looks like that's not a valid password. Please try again.
+    </string>
+
 </resources>
