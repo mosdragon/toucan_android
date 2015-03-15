@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.gms.gcm.Task;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,11 +36,12 @@ import java.util.List;
 
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.tasks.HttpTask;
+import me.toucantutor.toucan.tasks.TaskCallback;
 import me.toucantutor.toucan.util.AppConstants;
 import me.toucantutor.toucan.util.Requests;
 
 
-public class TutorListActivity extends ActionBarActivity{
+public class TutorListActivity extends ActionBarActivity implements TaskCallback{
 
 
     private int numberOfTutors=0;
@@ -50,6 +52,7 @@ public class TutorListActivity extends ActionBarActivity{
     private InputStream stream;
     private TutorListAdapter adapter;
     private ListView listView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +72,10 @@ public class TutorListActivity extends ActionBarActivity{
         JsonObject object = new JsonObject();
         object.addProperty("latitude", 33);
         object.addProperty("longitude", 55);
-        object.addProperty("userid", "213412435");
+        object.addProperty("userId", "213412435");
         object.addProperty("course", "calc1");
-        object.addProperty("miles", 1234.4);
-        object.addProperty("endTime", 12);
-        String jsonString = gson.toJson(object);
-        HttpTask task = new HttpTask(jsonString,AppConstants.FIND_ACTIVE_TUTORS_URL);
+        object.addProperty("expectedDist", 1234.4);
+        HttpTask task = new HttpTask(this, object,AppConstants.FIND_ACTIVE_TUTORS_URL);
         //should get JsonString from task. Set this.jsonString = return;
         return null;
     }
@@ -87,11 +88,17 @@ public class TutorListActivity extends ActionBarActivity{
         try {
             JsonElement elem = new JsonParser().parse(jsonString);
             JsonObject entireObject = elem.getAsJsonObject();
-            JsonElement arrayElement = entireObject.get("contacts");
-            JsonArray array = arrayElement.getAsJsonArray();
-            numberOfTutors = array.size();
+            JsonElement msg = entireObject.get("msg");
+            JsonElement code = entireObject.get("code");
+            JsonElement foundTutors = entireObject.get("foundTutors");
+            Log.v("","OOOOOOOOOOOOOOOOOOOOO "+msg.getAsString());
+            Log.v("","OOOOOOOOOOOOOOOOOOOOO "+code.getAsString());
+            Log.v("","OOOOOOOOOOOOOOOOOOOOO "+foundTutors.getAsString());
+
+            JsonArray tutorArray = entireObject.get("tutor").getAsJsonArray();
+            numberOfTutors = tutorArray.size();
             for(int x=0;x<numberOfTutors;x++){
-                JsonObject tutorObject = array.get(x).getAsJsonObject();
+                JsonObject tutorObject = tutorArray.get(x).getAsJsonObject();
                 Tutor t = new Tutor(tutorObject);
                 listOfTutors.add(t);
             }
@@ -193,6 +200,16 @@ public class TutorListActivity extends ActionBarActivity{
             return null;
         }
         return text.toString();
+    }
+
+    @Override
+    public void taskSuccess(JsonObject json){
+        Log.v("","TASK SUCCESS");
+    }
+
+    @Override
+    public void taskFail(JsonObject json) {
+        Log.v("", "TASK FAIL");
     }
 
 }
