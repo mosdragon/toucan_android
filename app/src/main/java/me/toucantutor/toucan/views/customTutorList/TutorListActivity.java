@@ -54,8 +54,8 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
     private TutorListAdapter adapter;
     private ListView listView;
 
-    private static final String url = "/sessions/findActiveTutors";
-    private static final int miles = 4;
+    private static final String url = "sessions/findActiveTutors";
+    private static final int miles = 65;
     private static final String failMsg = "It looks like we weren't able to find any tutors " +
             "available near you at this time. Please try searching later or" +
             " closer to the University of Georgia campus for better results during" +
@@ -84,6 +84,9 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
                 json.addProperty("longitude", location.getLongitude());
                 json.addProperty("course", chosenCourse.getCoursename());
                 json.addProperty("miles", miles);
+
+                Log.d("chosenCourse", chosenCourse.getCoursename());
+                Log.d("json", json.toString());
 
                 task = new HttpTask(this, json, url);
                 task.execute();
@@ -153,6 +156,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
 
     private void parseData(JsonObject json) {
         if (json != null) {
+            Log.d("parseData", json.toString());
             boolean foundTutors = json.get("foundTutors").getAsBoolean();
             tutors = new ArrayList<>();
             if (foundTutors) {
