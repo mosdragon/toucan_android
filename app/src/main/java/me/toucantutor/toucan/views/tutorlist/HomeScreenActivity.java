@@ -33,7 +33,7 @@ public class HomeScreenActivity extends ActionBarActivity implements MapsClientC
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplication(),ChooseSubjectActivity.class);
+                Intent i = new Intent(getApplication(),CourseListActivity.class);
                 startActivity(i);
             }
         });

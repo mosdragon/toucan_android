@@ -1,14 +1,17 @@
 package me.toucantutor.toucan.views.session;
 
 import android.content.Intent;
+import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import me.toucantutor.toucan.R;
+import me.toucantutor.toucan.locationdata.DetermineLocation;
 
 /*
  * Right now this screen is pretty useless lol. But later if we integrate canceling
@@ -24,13 +27,12 @@ public class StartSessionActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_session);
-
+        Location l = DetermineLocation.getLocation();
         isTutor = false;
         isTutor = true;
         //for now I'm only dealing with them starting a new session
         //for old sessions, I will need the session time and the users in the session
         setDisplay(isTutor);
-
     }
 
 

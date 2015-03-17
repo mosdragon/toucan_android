@@ -66,9 +66,9 @@ public class TutorListAdapter extends ArrayAdapter<Tutor> {
                 : currentTutor.getName().substring(0, 20).toUpperCase());
         ratingField.setRating(currentTutor.getRating().floatValue());
         ratingValue.setText(currentTutor.getRating() + "");
-        priceField.setText("$" + (currentTutor.getRate().intValue() < 10
-                ? "0" + currentTutor.getRate().intValue()
-                : currentTutor.getRate().intValue()));
+        priceField.setText("$" + (currentTutor.getPrice().intValue() < 10
+                ? "0" + currentTutor.getPrice().intValue()
+                : currentTutor.getPrice().intValue()));
         distanceField.setText(currentTutor.getDistance().intValue()+" mi.");
         Random rand = new Random();
         certified.setVisibility(currentTutor.getCertification() ? View.VISIBLE : View.INVISIBLE);

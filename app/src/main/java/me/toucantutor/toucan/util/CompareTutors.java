@@ -1,6 +1,8 @@
-package me.toucantutor.toucan.views.tutorlist;
+package me.toucantutor.toucan.util;
 
 import java.util.Comparator;
+
+import me.toucantutor.toucan.views.tutorlist.Tutor;
 
 /**
  * Created by aadil on 2/22/15.
@@ -59,12 +61,12 @@ public class CompareTutors {
                 public int compare(Tutor lhs, Tutor rhs) {
                     if (lhs == null && rhs == null) {
                         return 0;
-                    } else if (lhs == null || lhs.getRate() == 0) {
+                    } else if (lhs == null || lhs.getPrice() == 0) {
                         return 1;
-                    } else if (rhs == null || rhs.getRate() == 0) {
+                    } else if (rhs == null || rhs.getPrice() == 0) {
                         return -1;
                     } else {
-                        return lhs.getRate().compareTo(rhs.getRate());
+                        return lhs.getPrice().compareTo(rhs.getPrice());
                     }
                 }
             };

@@ -10,17 +10,17 @@
         android:id="@+id/coursename"
         android:textSize="30dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/activity_horizontal_margin"/>
+        android:layout_height="wrap_content"/>
+    <!--android:padding="@dimen/activity_horizontal_margin"/-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/coursename"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/school"
-        android:text="School"
-        android:textSize="25dp"
-        android:padding="@dimen/activity_horizontal_margin"/>
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/coursename"
+    android:layout_centerHorizontal="true"
+    android:id="@+id/school"
+    android:text="School"
+    android:textSize="15dp"
+    android:paddingBottom="@dimen/activity_horizontal_margin"/>
 
 </RelativeLayout>

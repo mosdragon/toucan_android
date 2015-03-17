@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -30,15 +31,16 @@ import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.tasks.HttpTask;
 import me.toucantutor.toucan.tasks.TaskCallback;
 import me.toucantutor.toucan.util.AppConstants;
+import me.toucantutor.toucan.util.CompareTutors;
+import me.toucantutor.toucan.views.courseList.Course;
 
 
 public class TutorListActivity extends ActionBarActivity implements TaskCallback{
 
-
+    private String courseChosen;
     private int numberOfTutors=0;
     private List<Tutor> listOfTutors = new ArrayList<Tutor>();
     private ArrayList<String> data = new ArrayList<String>();
-    private final String testWebsite = "http://jsonplaceholder.typicode.com/users";
     private InputStreamReader inReader;
     private InputStream stream;
     private TutorListAdapter adapter;
@@ -49,28 +51,27 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
         super.onCreate(savedInstanceState);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+        Bundle extras = getIntent().getExtras();
+        courseChosen = extras.getString("chosenCourse");
         setContentView(R.layout.activity_tutor_list);
         findActiveTutors();
-        buildData(readRawTextFile(this));
-        createListView();
+       // buildData(readRawTextFile(this));
+       // createListView();
     }
 
     //need to get the parameters needed for the request
-    public JsonObject findActiveTutors(){
-//        Gson gson = new Gson();
-//        JsonArray array = new JsonArray();
+    public void findActiveTutors(){
+        Gson gson = new Gson();
+        JsonArray array = new JsonArray();
         JsonObject object = new JsonObject();
-        object.addProperty("latitude", 33);
-        object.addProperty("longitude", 55);
-        object.addProperty("userid", "213412435");
-        object.addProperty("course", "calc1");
-        object.addProperty("miles", 1234.4);
-        object.addProperty("endTime", 12);
-//        String jsonString = gson.toJson(object);
-
-        HttpTask task = new HttpTask(this, object, AppConstants.FIND_ACTIVE_TUTORS_URL);
-        //should get JsonString from task. Set this.jsonString = return;
-        return null;
+        object.addProperty("latitude", AppConstants.DUMMY_LAT);
+        object.addProperty("longitude", AppConstants.DUMMY_LONG);
+        object.addProperty("userId", AppConstants.DUMMY_ID);
+        object.addProperty("course", courseChosen);
+        object.addProperty("expectedDist", "10 miles away"); //not exactly sure what expectedDist does
+        Log.v("","QQQQQQQQQQQQQQQq "+object.toString());
+        HttpTask task = new HttpTask(this, object, AppConstants.FIND_ACTIVE_TUTOR_URL);
+        task.execute();
     }
 
     /*
@@ -136,7 +137,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_tutor_list, menu);
-            return true;
+        return true;
     }
 
     /*
@@ -167,35 +168,54 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
     /*
      *Reads JSON text file. *Tester until API is set up*
      */
-    public String readRawTextFile(Context ctx)
-    {
-        Log.v("","READING RAW TEXT");
-        Resources res = getResources();
-        InputStream inputStream = res.openRawResource(R.raw.jsonfile);
 
-        InputStreamReader inputreader = new InputStreamReader(inputStream);
-        BufferedReader buffreader = new BufferedReader(inputreader);
-        String line;
-        StringBuilder text = new StringBuilder();
-
-        try {
-            while (( line = buffreader.readLine()) != null) {
-                text.append(line);
-                text.append('\n');
-            }
-        } catch (IOException e) {
-            return null;
-        }
-        return text.toString();
-    }
 
     @Override
     public void taskSuccess(JsonObject json) {
-
+        Log.v("","MAHHH NIGAAAAAAAAAAA"+json.toString());
+        boolean foundTutors = json.get("foundTutors").getAsBoolean();
+        if(!foundTutors){
+            //dialog box- not tutors available
+        }
+        JsonArray tutorArray = json.get("tutors").getAsJsonArray();
+        numberOfTutors = tutorArray.size();
+        for(int x=0;x<numberOfTutors;x++){
+            JsonObject tutorObject = tutorArray.get(x).getAsJsonObject();
+            Tutor t = new Tutor(tutorObject);
+            listOfTutors.add(t);
+        }
+        createListView();
     }
 
     @Override
     public void taskFail(JsonObject json) {
+        Log.v("","NOOOOO");
 
     }
+
 }
+
+
+
+
+//    public String readRawTextFile(Context ctx)
+//    {
+//        Log.v("","READING RAW TEXT");
+//        Resources res = getResources();
+//        InputStream inputStream = res.openRawResource(R.raw.jsonfile);
+//
+//        InputStreamReader inputreader = new InputStreamReader(inputStream);
+//        BufferedReader buffreader = new BufferedReader(inputreader);
+//        String line;
+//        StringBuilder text = new StringBuilder();
+//
+//        try {
+//            while (( line = buffreader.readLine()) != null) {
+//                text.append(line);
+//                text.append('\n');
+//            }
+//        } catch (IOException e) {
+//            return null;
+//        }
+//        return text.toString();
+//    }

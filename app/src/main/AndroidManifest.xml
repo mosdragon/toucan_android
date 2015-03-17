@@ -77,15 +77,7 @@
                 android:value="me.toucantutor.toucan.views.tutorlist.HomeScreenActivity" />
         </activity>
 
-        <activity
-            android:name=".views.tutorlist.ChooseSubjectActivity"
-            android:label="@string/title_activity_choose_subject" >
-        </activity>
 
-        <activity
-            android:name=".views.customTutorList.TutorListActivity"
-            android:label="@string/title_activity_tutor_list" >
-        </activity>
 
         <activity
             android:name=".views.RegisterActivity"

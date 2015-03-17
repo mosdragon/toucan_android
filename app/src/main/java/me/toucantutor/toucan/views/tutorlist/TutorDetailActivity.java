@@ -13,19 +13,17 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.google.android.gms.gcm.Task;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.tasks.HttpTask;
-import me.toucantutor.toucan.tasks.TaskCallback;
 import me.toucantutor.toucan.util.AppConstants;
 import me.toucantutor.toucan.views.session.StartSessionActivity;
 
 
-public class TutorDetailActivity extends ActionBarActivity implements TaskCallback {
+public class TutorDetailActivity extends ActionBarActivity {
 
     private Tutor chosenTutor;
 
@@ -48,8 +46,8 @@ public class TutorDetailActivity extends ActionBarActivity implements TaskCallba
         object.addProperty("userId", 551234);
         object.addProperty("course", "Physics I");
         object.addProperty("studentPhone", "7709382274");
-//        String jsonString = gson.toJson(object);
-        HttpTask task = new HttpTask(this, object, AppConstants.SELECT_TUTOR_URL);
+        String jsonString = gson.toJson(object);
+       // HttpTask task = new HttpTask(jsonString, AppConstants.SELECT_TUTOR_URL);
         //should get JsonString from task. Set this.jsonString = return;
         //some Json string is returned
         return null;
@@ -81,7 +79,7 @@ public class TutorDetailActivity extends ActionBarActivity implements TaskCallba
         phone.setText("" + chosenTutor.getPhoneNumber());
         ratingBar.setRating(chosenTutor.getRating().floatValue());
         distance.setText(chosenTutor.getDistance().intValue() + " mi.");
-        price.setText("$" + chosenTutor.getRate().intValue());
+        price.setText("$" + chosenTutor.getPrice().intValue());
         choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,15 +111,5 @@ public class TutorDetailActivity extends ActionBarActivity implements TaskCallba
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void taskSuccess(JsonObject json) {
-
-    }
-
-    @Override
-    public void taskFail(JsonObject json) {
-
     }
 }
