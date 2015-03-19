@@ -1,10 +1,7 @@
 package me.toucantutor.toucan.views.customTutorList;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.location.Location;
-import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,10 +15,7 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -32,7 +26,6 @@ import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.locationdata.DetermineLocation;
 import me.toucantutor.toucan.tasks.HttpTask;
 import me.toucantutor.toucan.tasks.TaskCallback;
-import me.toucantutor.toucan.util.AppConstants;
 import me.toucantutor.toucan.views.courseList.Course;
 import me.toucantutor.toucan.views.tutorlist.CompareTutors;
 import me.toucantutor.toucan.views.tutorlist.Tutor;

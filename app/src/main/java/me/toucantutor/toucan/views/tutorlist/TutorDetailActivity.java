@@ -1,19 +1,16 @@
 package me.toucantutor.toucan.views.tutorlist;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.google.android.gms.gcm.Task;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -21,7 +18,7 @@ import com.google.gson.JsonObject;
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.tasks.HttpTask;
 import me.toucantutor.toucan.tasks.TaskCallback;
-import me.toucantutor.toucan.util.AppConstants;
+import me.toucantutor.toucan.util.Constants;
 import me.toucantutor.toucan.views.session.StartSessionActivity;
 
 
@@ -49,7 +46,7 @@ public class TutorDetailActivity extends ActionBarActivity implements TaskCallba
         object.addProperty("course", "Physics I");
         object.addProperty("studentPhone", "7709382274");
 //        String jsonString = gson.toJson(object);
-        HttpTask task = new HttpTask(this, object, AppConstants.SELECT_TUTOR_URL);
+        HttpTask task = new HttpTask(this, object, Constants.SELECT_TUTOR_URL);
         //should get JsonString from task. Set this.jsonString = return;
         //some Json string is returned
         return null;

@@ -29,7 +29,7 @@ import java.util.List;
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.tasks.HttpTask;
 import me.toucantutor.toucan.tasks.TaskCallback;
-import me.toucantutor.toucan.util.AppConstants;
+import me.toucantutor.toucan.util.Constants;
 
 
 public class TutorListActivity extends ActionBarActivity implements TaskCallback{
@@ -68,7 +68,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
         object.addProperty("endTime", 12);
 //        String jsonString = gson.toJson(object);
 
-        HttpTask task = new HttpTask(this, object, AppConstants.FIND_ACTIVE_TUTORS_URL);
+        HttpTask task = new HttpTask(this, object, Constants.FIND_ACTIVE_TUTORS_URL);
         //should get JsonString from task. Set this.jsonString = return;
         return null;
     }
