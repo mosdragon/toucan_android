@@ -50,18 +50,13 @@
         <item>Certifed</item>
     </string-array>
 
-
     <string name="title_activity_course_list">CourseListActivity</string>
     <string name="title_activity_choose_subject">ChooseSubjectActivity</string>
-
     <string name="title_activity_register">RegisterActivity</string>
-    <string name="field_required">You must complete all required fields.</string>
-    <string name="invalid_credentials">
-        It looks like you don\'t have valid credentials for this account. Please try again.
-    </string>
-    <string name="invalid_password">
-        It looks like that\'s not a valid password. Please try again.
-    </string>
-
+    <string name="field_required">You must complete required fields.</string>
+    <string name="invalid_credentials">        It looks like you don\'t have valid credentials for this account. Please try again.</string>
+    <string name="invalid_password">        It looks like that\'s not a valid password. Please try again.</string>
+    <string name="invalid_email">        It looks like that\'s not a valid email. Please try again.</string>
+    <string name="title_activity_login">LoginActivity</string>
 
 </resources>

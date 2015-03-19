@@ -13,8 +13,9 @@ import android.widget.TextView;
 
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.locationdata.DetermineLocation;
+import me.toucantutor.toucan.login_register.LoginActivity;
+import me.toucantutor.toucan.login_register.RegisterActivity;
 import me.toucantutor.toucan.util.MapsClientCallback;
-import me.toucantutor.toucan.views.RegisterActivity;
 import me.toucantutor.toucan.views.courseList.CourseListActivity;
 import me.toucantutor.toucan.views.session.StartSessionActivity;
 
@@ -61,7 +62,10 @@ public class HomeScreenActivity extends ActionBarActivity implements MapsClientC
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
-
+    public void login(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
     @Override
     public void clientFinished() {
         Log.d("~~~~~~~~~~HomeScreenActivity", "clientFinished called~~~~~~~~~~~~");

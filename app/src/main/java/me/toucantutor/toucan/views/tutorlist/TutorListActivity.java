@@ -172,7 +172,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
 
     @Override
     public void taskSuccess(JsonObject json) {
-        Log.v("","MAHHH NIGAAAAAAAAAAA"+json.toString());
+        Log.v("","JSON PASSED BACK"+json.toString());
         boolean foundTutors = json.get("foundTutors").getAsBoolean();
         if(!foundTutors){
             //dialog box- not tutors available

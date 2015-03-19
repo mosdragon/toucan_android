@@ -76,11 +76,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.toucantutor.toucan.views.tutorlist.HomeScreenActivity" />
         </activity>
-
-
-
         <activity
             android:name=".views.RegisterActivity"
+            android:label="@string/title_activity_register" >
+        </activity>
+        <activity
+            android:name=".login_register.LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name=".login_register.RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
     </application>

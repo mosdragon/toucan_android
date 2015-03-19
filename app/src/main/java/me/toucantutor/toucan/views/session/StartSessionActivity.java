@@ -10,8 +10,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.locationdata.DetermineLocation;
+import me.toucantutor.toucan.tasks.HttpTask;
+import me.toucantutor.toucan.tasks.TaskCallback;
+import me.toucantutor.toucan.util.AppConstants;
+import me.toucantutor.toucan.views.tutorlist.Tutor;
 
 /*
  * Right now this screen is pretty useless lol. But later if we integrate canceling
@@ -19,45 +26,37 @@ import me.toucantutor.toucan.locationdata.DetermineLocation;
  * to reject the request.
  */
 
-public class StartSessionActivity extends ActionBarActivity {
+public class StartSessionActivity extends ActionBarActivity implements TaskCallback{
 
 
     private boolean isTutor;
+    private Tutor chosenTutor;
+    private Long sessionId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_session);
+        Bundle b = getIntent().getExtras();
+        chosenTutor = (Tutor) b.getSerializable("chosenTutor");
+        getSessionData();
         Location l = DetermineLocation.getLocation();
-        isTutor = false;
-        isTutor = true;
         //for now I'm only dealing with them starting a new session
         //for old sessions, I will need the session time and the users in the session
-        setDisplay(isTutor);
+        setDisplay(AppConstants.isTutor);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_start_session, menu);
-        return true;
+    public void getSessionData() {
+        Gson gson = new Gson();
+        JsonObject object = new JsonObject();
+        object.addProperty("userId", AppConstants.DUMMY_ID);
+        object.addProperty("studentPhone", AppConstants.PHONE_NUMBER);
+        object.addProperty("tutorId", chosenTutor.getId());
+        object.addProperty("course", chosenTutor.getCourse());
+        Log.v("", "JSON SENT TO SERVER " + gson.toJson(object));
+        HttpTask task = new HttpTask(this, object, AppConstants.SELECT_TUTOR_URL);
+        task.execute();
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     private void setDisplay(boolean isTutor) {
         if(isTutor) {
@@ -78,15 +77,25 @@ public class StartSessionActivity extends ActionBarActivity {
     }
 
     public void continueSession(View view) {
-
-        nextActivity();
-    }
-
-
-
-    private void nextActivity() {
         Intent i = new Intent(this, SessionInProgressActivity.class);
         i.putExtra("isTut", isTutor);
         startActivity(i);
     }
+
+    @Override
+    public void taskSuccess(JsonObject json) {
+        Log.v("","JSON PASSED BACK"+json.toString());
+        String phone = json.get("tutorPhone").getAsString();
+        String name = json.get("tutorName").getAsString();
+        String course = json.get("course").getAsString();
+        this.sessionId = json.get("sessionId").getAsLong();
+    }
+
+    @Override
+    public void taskFail(JsonObject json) {
+        Log.v("", "NOOOOO");
+
+    }
+
+
 }

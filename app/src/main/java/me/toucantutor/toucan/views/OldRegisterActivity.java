@@ -38,7 +38,7 @@ import me.toucantutor.toucan.R;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor> {
+public class OldRegisterActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
      * A dummy authentication store containing known user names and passwords.

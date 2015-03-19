@@ -92,8 +92,7 @@ public class CourseListActivity extends Activity implements TaskCallback {
 
     @Override
     public void taskSuccess(JsonObject json) {
-        Log.v("","MAHHH NIGAAAAAAAAAAA"+json.toString());
-        String returnedJsonString = "[ [\"SPAN 1001\", \"University of Georgia(UGA)\"], [\"PSYC 2001\", \"University of Georgia(UGA)\"], ]";
+        Log.v("","JSON PASSED BACK"+json.toString());
         JsonArray courseArray = json.get("courseData").getAsJsonArray();
         for(int x=0;x<courseArray.size();x++){
             Course c = new Course(courseArray.get(x).getAsJsonObject());
