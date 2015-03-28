@@ -40,13 +40,13 @@ public class HomeScreenActivity extends AppActivity implements MapsClientCallbac
                 startActivity(i);
             }
         });
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplication(),TutorChooseSubjectsActivity.class);
-                startActivity(i);
-            }
-        });
+//        b2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(getApplication(),TutorChooseSubjectsActivity.class);
+//                startActivity(i);
+//            }
+//        });
     }
 
     @Override

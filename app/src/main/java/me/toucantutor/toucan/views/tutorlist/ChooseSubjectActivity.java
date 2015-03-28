@@ -44,13 +44,13 @@ public class ChooseSubjectActivity extends Activity implements TaskCallback {
         //updates list of selected subjects
         ListView listOfSubjects = (ListView) findViewById(R.id.chooseSubjectList);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.tutor_choose_subject_item, R.id.subject,list);
-        listOfSubjects.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(getApplication(),TutorListActivity.class);
-                startActivity(i);
-            }
-        });
+//        listOfSubjects.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent i = new Intent(getApplication(),TutorListActivity.class);
+//                startActivity(i);
+//            }
+//        });
         //choose button listener and handles error
         listOfSubjects.setAdapter(adapter);
     }

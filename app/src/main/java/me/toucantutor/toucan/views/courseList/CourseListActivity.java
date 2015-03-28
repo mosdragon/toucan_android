@@ -14,6 +14,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import me.toucantutor.toucan.tasks.HttpTask;
 import me.toucantutor.toucan.tasks.TaskCallback;
 import me.toucantutor.toucan.util.AppActivity;
 import me.toucantutor.toucan.util.Constants;
+import me.toucantutor.toucan.util.Globals;
 import me.toucantutor.toucan.views.customTutorList.TutorListActivity;
 
 public class CourseListActivity extends AppActivity implements TaskCallback {
@@ -93,7 +95,9 @@ public class CourseListActivity extends AppActivity implements TaskCallback {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CourseListActivity.this, TutorListActivity.class);
-                intent.putExtra("COURSE", courses.get(position));
+                Course course = courses.get(position);
+                Globals.setCourse(course);
+                intent.putExtra(Constants.COURSE, (Serializable) course);
                 startActivity(intent);
             }
         });

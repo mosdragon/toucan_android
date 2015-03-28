@@ -70,7 +70,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
 //        buildData(readRawTextFile(this));
         Intent usedIntent = getIntent();
         if (usedIntent != null) {
-            chosenCourse = (Course) usedIntent.getSerializableExtra("COURSE");
+            chosenCourse = (Course) usedIntent.getSerializableExtra(Constants.COURSE);
 
             if (chosenCourse != null) {
                 JsonObject json = new JsonObject();
@@ -95,18 +95,18 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
      * Updates the Listview immediately
      */
     public void sortList(String sortBy){
-        TutorComparators t = new TutorComparators();
+        TutorComparators comps = new TutorComparators();
         if(sortBy.equals("name")){
-            Collections.sort(listOfTutors, t.NAME);
+            Collections.sort(listOfTutors, comps.NAME);
         }
         else if(sortBy.equals("price")){
-            Collections.sort(listOfTutors, t.PRICE);
+            Collections.sort(listOfTutors, comps.PRICE);
         }
         else if(sortBy.equals("rating")){
-            Collections.sort(listOfTutors, t.RATING);
+            Collections.sort(listOfTutors, comps.RATING);
         }
         else if(sortBy.equals("distance")){
-            Collections.sort(listOfTutors, t.DISTANCE);
+            Collections.sort(listOfTutors, comps.DISTANCE);
         }
         this.listView.setAdapter(this.adapter);
     }

@@ -57,18 +57,6 @@
                 android:value=".views.session.StartSessionActivity" />
         </activity>
         <activity
-            android:name=".views.tutorlist.TutorListActivity"
-            android:label="@string/title_activity_tutor_list" >
-        </activity>
-        <activity
-            android:name=".views.tutorlist.TutorDetailActivity"
-            android:label="@string/title_activity_tutor_detail" >
-        </activity>
-        <activity
-            android:name=".views.tutorlist.TutorChooseSubjectsActivity"
-            android:label="@string/title_activity_tutor_choose_subjects" >
-        </activity>
-        <activity
             android:name=".views.courseList.CourseListActivity"
             android:label="@string/title_activity_course_list"
             android:parentActivityName=".views.tutorlist.HomeScreenActivity" >

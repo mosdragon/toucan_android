@@ -19,12 +19,11 @@ import me.toucantutor.toucan.locationdata.DetermineLocation;
 /**
  * Created by Aadil on 2/13/2015.
  */
-public class Tutor implements Serializable, Parcelable {
+public class Tutor implements Serializable {
 
     private Double distance;
     private Double rate;
     private Double rating;
-    private Location location;
     private long tutorId;
     private String email;
     private String name;
@@ -140,7 +139,6 @@ public class Tutor implements Serializable, Parcelable {
         Location tutorLocation =  new Location("");
         tutorLocation.setLatitude(latitude);
         tutorLocation.setLongitude(longitude);
-        setLocation(tutorLocation);
 
         Location currentLocation = DetermineLocation.getLocation();
 
@@ -186,21 +184,12 @@ public class Tutor implements Serializable, Parcelable {
         this.biography = biography;
     }
 
+//    Cannot have Location as an instance variable, otherwise we can't serialize Tutors
     public Location getLocation() {
+        Location location = new Location("");
+        location.setLatitude(getLatitude());
+        location.setLongitude(getLongitude());
         return location;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
 }
