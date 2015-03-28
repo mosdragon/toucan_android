@@ -10,4 +10,5 @@ public interface TaskCallback {
     public void taskSuccess(JsonObject json);
 
     public void taskFail(JsonObject json);
+
 }

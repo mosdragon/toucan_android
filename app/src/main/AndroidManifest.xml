@@ -4,14 +4,25 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDQ74-CHRcRVDfMee1LJ3fBG5GEtWflyAE" />
+
         <activity
             android:name=".views.tutorlist.HomeScreenActivity"
             android:label="@string/app_name" >
@@ -58,8 +69,32 @@
             android:label="@string/title_activity_tutor_choose_subjects" >
         </activity>
         <activity
+            android:name=".views.courseList.CourseListActivity"
+            android:label="@string/title_activity_course_list"
+            android:parentActivityName=".views.tutorlist.HomeScreenActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.toucantutor.toucan.views.tutorlist.HomeScreenActivity" />
+        </activity>
+
+        <activity
             android:name=".views.tutorlist.ChooseSubjectActivity"
             android:label="@string/title_activity_choose_subject" >
+        </activity>
+
+        <activity
+            android:name=".views.customTutorList.TutorListActivity"
+            android:label="@string/title_activity_tutor_list" >
+        </activity>
+
+        <activity
+            android:name=".views.customTutorList.TutorDetailActivity"
+            android:label="@string/title_activity_tutor_detail" >
+        </activity>
+
+        <activity
+            android:name=".views.RegisterActivity"
+            android:label="@string/title_activity_register" >
         </activity>
     </application>
 

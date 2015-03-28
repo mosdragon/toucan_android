@@ -1,6 +1,8 @@
 package me.toucantutor.toucan.views.tutorlist;
 
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.google.gson.JsonElement;
@@ -12,64 +14,82 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import me.toucantutor.toucan.locationdata.DetermineLocation;
+
 /**
  * Created by Aadil on 2/13/2015.
  */
-public class Tutor implements Serializable{
+public class Tutor implements Serializable, Parcelable {
 
-    private boolean isCertified;
-    private String name;
-    private String userName;
-    private String password;
-    private long id;
-    private String email;
     private Double distance;
-    private Double price;
+    private Double rate;
     private Double rating;
-    private Double availablity;
     private Location location;
-    private Double latitude;
-    private Double longitude;
+    private long tutorId;
+    private String email;
+    private String name;
     private String phoneNumber;
 
+    private String biography;
+    private String course;
+    private boolean isCertified;
+    private Double latitude;
+    private Double longitude;
+    private String major;
+
+
+//            "biography": "",
+//            "course": "PORT 2001",
+//            "experience": 0,
+//            "isCertified": true,
+//            "latitude": 33.300933,
+//            "longitude": -83.794122,
+//            "major": "",
+//            "name": "John Cena",
+//            "rate": 8,
+//            "rating": 0
+//            "reviews": [ ],
+//            "tutorId": 903778,
+//            "tutorPhone": "6783219900",
+//            "year": "",
+
+
     public Tutor(JsonObject input){
-        setCertification(fetch(input,"certification"));
-        //setAvailability(fetch(input,"availability"));
-        setId(fetch(input, "id"));
+        setCertified(input.get("isCertified").getAsBoolean());
+        setTutorId(fetch(input, "tutorId"));
         setName(fetch(input, "name"));
-        setUserName(fetch(input, "username"));
         setEmail(fetch(input, "email"));
         setRating(fetch(input, "rating"));
-        setPrice(fetch(input, "price"));
+        setRate(fetch(input, "rate"));
         setLatitude(fetch(input, "latitude"));
         setLongitude(fetch(input, "longitude"));
         setDistance();
     }
 
-    public Tutor(){
-
-    }
-
     private String fetch(JsonObject input, String fieldName) {
         Log.v("","FIELDNAME "+fieldName);
         String s="";
-        try{
+        try {
             s = input.get(fieldName).getAsString();
-        }catch(Exception e){};
+        } catch(Exception e){};
         return s;
     }
 
-    public void setCertification(String certified) { isCertified = Boolean.parseBoolean(certified); }
-    public boolean getCertification() { return isCertified; }
+    public void setCertified(Boolean isCertified) {
+        this.isCertified = isCertified;
+    }
+    public boolean getCertification() {
+        return isCertified;
+    }
 
     public void setPhoneNumber(String number) { phoneNumber = number; }
     public String getPhoneNumber() { return phoneNumber; }
 
-    public void setId(String id){
-        this.id = Long.parseLong(id);
+    public void setTutorId(String givenTutorId){
+        this.tutorId = Long.parseLong(givenTutorId);
     }
-    public long getId(){
-        return id;
+    public long getTutorId(){
+        return tutorId;
     }
 
     public void setName(String name){
@@ -77,13 +97,6 @@ public class Tutor implements Serializable{
     }
     public String getName(){
         return name;
-    }
-
-    public void setUserName(String userName){
-        this.userName = userName;
-    }
-    public String getUserName(){
-        return userName;
     }
 
     public void setEmail(String email){
@@ -100,18 +113,11 @@ public class Tutor implements Serializable{
         return rating;
     }
 
-    public void setAvailability(String availablity){
-        this.availablity= Double.parseDouble(availablity);
+    public void setRate(String rate){
+        this.rate = Double.parseDouble(rate);
     }
-    public double getAvailability(){
-        return availablity;
-    }
-
-    public void setPrice(String price){
-        this.price = Double.parseDouble(price);
-    }
-    public Double getPrice(){
-        return price;
+    public Double getRate(){
+        return rate;
     }
 
     public void setLatitude(String latitude){
@@ -129,24 +135,72 @@ public class Tutor implements Serializable{
     }
 
     //uses lat/long of tutor and current user to find distance between them
-    public void setDistance(){
+    public void setDistance() {
         //flawed way of calculating distance.
         Location tutorLocation =  new Location("");
         tutorLocation.setLatitude(latitude);
         tutorLocation.setLongitude(longitude);
-        Location currentLocation = new Location("");
-        //get currentlocation from location class. This is for testing--use locationData class
-        currentLocation.setLatitude(33.947688);
-        currentLocation.setLongitude(-83.346157);
-        //claimed to be the distance in miles btw points. Doesn't seem like it...
-        double distance = currentLocation.distanceTo(tutorLocation)*0.000621371;
-        distance = distance*100;
-        distance = Math.round(distance);
-        distance = distance /100;
-        this.distance = distance;
+        setLocation(tutorLocation);
+
+        Location currentLocation = DetermineLocation.getLocation();
+
+        double inMeters = currentLocation.distanceTo(tutorLocation);
+        double inKms = inMeters / 1000;
+        double inMiles = inKms * 0.000621371;
+        inMiles = Math.floor(inMiles * 100) / 100.00;
+
+        this.distance = inMiles;
+
+        String tutLocStr = String.format("Lat/Lng: <%f,%f>", tutorLocation.getLatitude(),
+                tutorLocation.getLongitude());
+        String currLocStr = String.format("Lat/Lng: <%f,%f>", currentLocation.getLatitude(),
+                currentLocation.getLongitude());
+        Log.d("~~~~~~~~TUTOR LOCATION:", tutLocStr);
+        Log.d("~~~~~~~~CURRENT LOCATION:", currLocStr);
     }
     public Double getDistance(){
         return distance;
     }
 
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
 }

@@ -1,10 +1,7 @@
 package me.toucantutor.toucan.views.tutorlist;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -26,10 +22,11 @@ import java.util.ArrayList;
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.tasks.HttpTask;
 import me.toucantutor.toucan.tasks.TaskCallback;
-import me.toucantutor.toucan.util.AppConstants;
+import me.toucantutor.toucan.util.Constants;
 
 
-public class ChooseSubjectActivity extends Activity implements TaskCallback{
+public class ChooseSubjectActivity extends Activity implements TaskCallback {
+
 
     private String[] newSubjectList;
     private String[] subjectList = {"Calculus 1", "Calculus II", "Physics I", "Physics II", "Chemistry I", "Biology I"};
@@ -68,8 +65,10 @@ public class ChooseSubjectActivity extends Activity implements TaskCallback{
         JsonObject object = new JsonObject();
         object.addProperty("latitude", 33);
         object.addProperty("longitude", 55);
-        //String jsonString = gson.toJson(object);
-        HttpTask task = new HttpTask(this, object,AppConstants.GET_COURSES_URL);
+
+        String jsonString = gson.toJson(object);
+        HttpTask task = new HttpTask(this, object, Constants.GET_COURSES_URL);
+
         //should get JsonString from task. Set this.jsonString = return;
         String returnedJsonString = "[ [\"SPAN 1001\", \"University of Georgia(UGA)\"], [\"PSYC 2001\", \"University of Georgia(UGA)\"], ]";
 
@@ -106,14 +105,14 @@ public class ChooseSubjectActivity extends Activity implements TaskCallback{
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void taskSuccess(JsonObject json){
-        Log.v("","TASK SUCCESS");
+        Log.v("", "TASK SUCCESS");
     }
 
     @Override
     public void taskFail(JsonObject json) {
         Log.v("", "TASK FAIL");
     }
-
 }

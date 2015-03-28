@@ -1,8 +1,10 @@
-package me.toucantutor.toucan.views.tutorlist;
+package me.toucantutor.toucan.views.customTutorList;
 
+/**
+ * Created by osama on 3/27/15.
+ */
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,58 +20,59 @@ import com.google.gson.JsonObject;
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.tasks.HttpTask;
 import me.toucantutor.toucan.tasks.TaskCallback;
-
 import me.toucantutor.toucan.util.AppActivity;
 import me.toucantutor.toucan.util.Constants;
+import me.toucantutor.toucan.util.Globals;
 import me.toucantutor.toucan.views.session.StartSessionActivity;
+import me.toucantutor.toucan.views.tutorlist.Tutor;
 
 
 public class TutorDetailActivity extends AppActivity implements TaskCallback {
 
-    private Tutor chosenTutor;
+    private Tutor tutor;
+    private HttpTask task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutor_detail);
-        selectTutorRequest();
-        Bundle b = getIntent().getExtras();
-        chosenTutor = (Tutor) b.getSerializable("tutorChosen");
+
+        Intent received = getIntent();
+        tutor = (Tutor) received.getSerializableExtra(Constants.TUTOR);
+        createTask();
         createLayout();
 
     }
 
-    public JsonObject selectTutorRequest(){
+    private void createTask() {
         Gson gson = new Gson();
         JsonArray array = new JsonArray();
         JsonObject object = new JsonObject();
-        object.addProperty("tutorId", 3234113);
-        object.addProperty("userId", 551234);
-        object.addProperty("course", "Physics I");
+        object.addProperty("tutorId", tutor.getTutorId());
+        object.addProperty("userId", Globals.getUserId());
+        object.addProperty("course", Globals.getCourse().getCoursename());
         object.addProperty("studentPhone", "7709382274");
 //        String jsonString = gson.toJson(object);
-        HttpTask task = new HttpTask(this, object, Constants.SELECT_TUTOR_URL);
-
+        task = new HttpTask(this, object, Constants.SELECT_TUTOR_URL);
         //should get JsonString from task. Set this.jsonString = return;
         //some Json string is returned
-        return null;
     }
 
     public void createLayout(){
-        TextView name = (TextView)findViewById(R.id.tutorName);
-        TextView email = (TextView)findViewById(R.id.tutorEmail);
-        TextView certification = (TextView)findViewById(R.id.tutorCertification);
-        ImageView certified = (ImageView)findViewById(R.id.tutorCertSymbol);
-        TextView phone = (TextView)findViewById(R.id.tutorPhoneNumber);
-//        TextView rating = (TextView)findViewById(R.id.tutorRating);
-        RatingBar ratingBar = (RatingBar)findViewById(R.id.tutorRatingBar);
-        TextView distance = (TextView)findViewById(R.id.tutorDistance);
-        TextView price = (TextView)findViewById(R.id.tutorPrice);
-        Button choose = (Button)findViewById(R.id.choose);
+        TextView name = (TextView) findViewById(R.id.tutorName);
+        TextView email = (TextView) findViewById(R.id.tutorEmail);
+        TextView certification = (TextView) findViewById(R.id.tutorCertification);
+        ImageView certified = (ImageView) findViewById(R.id.tutorCertSymbol);
+        TextView phone = (TextView) findViewById(R.id.tutorPhoneNumber);
+//        TextView rating = (TextView) findViewById(R.id.tutorRating);
+        RatingBar ratingBar = (RatingBar) findViewById(R.id.tutorRatingBar);
+        TextView distance = (TextView) findViewById(R.id.tutorDistance);
+        TextView price = (TextView) findViewById(R.id.tutorPrice);
+        Button choose = (Button) findViewById(R.id.choose);
 
-        name.setText(chosenTutor.getName().toUpperCase());
-        email.setText(chosenTutor.getEmail());
-        if(chosenTutor.getCertification()==true){
+        name.setText(tutor.getName().toUpperCase());
+        email.setText(tutor.getEmail());
+        if(tutor.getCertification()==true) {
             certification.setText("Certified");
             certification.setPadding(82,10,0,10);
             certified.setVisibility(View.VISIBLE);
@@ -78,10 +81,10 @@ public class TutorDetailActivity extends AppActivity implements TaskCallback {
             certification.setText("Uncertified");
             certified.setVisibility(View.INVISIBLE);
         }
-        phone.setText("" + chosenTutor.getPhoneNumber());
-        ratingBar.setRating(chosenTutor.getRating().floatValue());
-        distance.setText(chosenTutor.getDistance().intValue() + " mi.");
-        price.setText("$" + chosenTutor.getRate().intValue());
+        phone.setText("" + tutor.getPhoneNumber());
+        ratingBar.setRating(tutor.getRating().floatValue());
+        distance.setText(tutor.getDistance() + " mi.");
+        price.setText("$" + tutor.getRate().intValue());
         choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,12 +119,12 @@ public class TutorDetailActivity extends AppActivity implements TaskCallback {
     }
 
     @Override
-    public void taskSuccess(JsonObject json){
-        Log.v("", "TASK SUCCESS");
+    public void taskSuccess(JsonObject json) {
+
     }
 
     @Override
     public void taskFail(JsonObject json) {
-        Log.v("", "TASK FAIL");
+
     }
 }

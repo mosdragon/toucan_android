@@ -13,23 +13,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.google.android.gms.gcm.Task;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.GenericArrayType;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,11 +30,11 @@ import java.util.List;
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.tasks.HttpTask;
 import me.toucantutor.toucan.tasks.TaskCallback;
-import me.toucantutor.toucan.util.AppConstants;
-import me.toucantutor.toucan.util.Requests;
+import me.toucantutor.toucan.util.Constants;
 
 
-public class TutorListActivity extends ActionBarActivity implements TaskCallback{
+
+public class TutorListActivity extends ActionBarActivity implements TaskCallback {
 
 
     private int numberOfTutors=0;
@@ -59,7 +52,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
         super.onCreate(savedInstanceState);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        setContentView(R.layout.tutor_list);
+        setContentView(R.layout.activity_tutor_list);
         findActiveTutors();
         buildData(readRawTextFile(this));
         createListView();
@@ -67,15 +60,19 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
 
     //need to get the parameters needed for the request
     public JsonObject findActiveTutors(){
-        Gson gson = new Gson();
-        JsonArray array = new JsonArray();
+//        Gson gson = new Gson();
+//        JsonArray array = new JsonArray();
         JsonObject object = new JsonObject();
         object.addProperty("latitude", 33);
         object.addProperty("longitude", 55);
         object.addProperty("userId", "213412435");
         object.addProperty("course", "calc1");
-        object.addProperty("expectedDist", 1234.4);
-        HttpTask task = new HttpTask(this, object,AppConstants.FIND_ACTIVE_TUTORS_URL);
+
+        object.addProperty("miles", 1234.4);
+        object.addProperty("endTime", 12);
+//        String jsonString = gson.toJson(object);
+
+        HttpTask task = new HttpTask(this, object, Constants.FIND_ACTIVE_TUTORS_URL);
         //should get JsonString from task. Set this.jsonString = return;
         return null;
     }
@@ -110,7 +107,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
      */
     public void createListView(){
         Log.v("","CREATING LSITVIEW");
-        adapter = new TutorListAdapter(this, R.layout.tutor_list_item,listOfTutors);
+        adapter = new TutorListAdapter(this, R.layout.tutor_item,listOfTutors);
         listView = (ListView)findViewById(R.id.tutorListView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -118,7 +115,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.v("","CLICKED TUTOR");
                 Intent i = new Intent(getApplication(), TutorDetailActivity.class);
-                i.putExtra("tutorChosen", listOfTutors.get(position));
+                i.putExtra("tutorChosen", (Serializable) listOfTutors.get(position));
                 startActivity(i);
             }
         });
@@ -129,7 +126,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
      * Updates the listview immediately
      */
     public void sortList(String sortBy){
-        CompareTutors t = new CompareTutors();
+        TutorComparators t = new TutorComparators();
         if(sortBy.equals("name")){
             Collections.sort(listOfTutors,t.NAME);
         }
@@ -211,5 +208,4 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
     public void taskFail(JsonObject json) {
         Log.v("", "TASK FAIL");
     }
-
 }
