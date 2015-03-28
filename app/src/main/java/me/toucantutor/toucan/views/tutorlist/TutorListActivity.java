@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -105,7 +106,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.v("","CLICKED TUTOR");
                 Intent i = new Intent(getApplication(), TutorDetailActivity.class);
-                i.putExtra("tutorChosen", listOfTutors.get(position));
+                i.putExtra("tutorChosen", (Serializable) listOfTutors.get(position));
                 startActivity(i);
             }
         });
@@ -116,7 +117,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
      * Updates the listview immediately
      */
     public void sortList(String sortBy){
-        CompareTutors t = new CompareTutors();
+        TutorComparators t = new TutorComparators();
         if(sortBy.equals("name")){
             Collections.sort(listOfTutors,t.NAME);
         }

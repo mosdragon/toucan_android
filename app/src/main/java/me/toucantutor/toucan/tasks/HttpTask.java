@@ -34,6 +34,7 @@ import java.util.List;
 
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.locationdata.DetermineLocation;
+import me.toucantutor.toucan.util.Constants;
 import me.toucantutor.toucan.util.Requests;
 
 /**
@@ -41,7 +42,7 @@ import me.toucantutor.toucan.util.Requests;
  */
 public class HttpTask extends AsyncTask<Void,Void,Void> {
 
-    public static final String BASEURL = "http://beta-toucanapp.rhcloud.com/api/v1/";
+    public static final String BASEURL = Constants.BASEURL;
     private JsonObject json;
     private String url;
     private JsonObject response;

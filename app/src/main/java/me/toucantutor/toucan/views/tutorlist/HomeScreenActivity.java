@@ -3,7 +3,6 @@ package me.toucantutor.toucan.views.tutorlist;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,13 +12,15 @@ import android.widget.TextView;
 
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.locationdata.DetermineLocation;
+import me.toucantutor.toucan.util.AppActivity;
+import me.toucantutor.toucan.util.Globals;
 import me.toucantutor.toucan.util.MapsClientCallback;
 import me.toucantutor.toucan.views.RegisterActivity;
 import me.toucantutor.toucan.views.courseList.CourseListActivity;
 import me.toucantutor.toucan.views.session.StartSessionActivity;
 
 
-public class HomeScreenActivity extends ActionBarActivity implements MapsClientCallback {
+public class HomeScreenActivity extends AppActivity implements MapsClientCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,8 @@ public class HomeScreenActivity extends ActionBarActivity implements MapsClientC
         setContentView(R.layout.activity_home_screen);
 
         DetermineLocation.createInstance(this);
+//        Loads all necessary info for app from storage
+        Globals.appLoad(this);
 
         Button b1 = (Button)findViewById(R.id.button1);
         Button b2 = (Button)findViewById(R.id.button2);

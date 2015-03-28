@@ -18,9 +18,10 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import me.toucantutor.toucan.R;
+import me.toucantutor.toucan.util.AppActivity;
 
 
-public class TutorChooseSubjectsActivity extends Activity {
+public class TutorChooseSubjectsActivity extends AppActivity {
 
     private String[] subjectList = {"Calculus 1", "Calculus II", "Physics I", "Physics II", "Chemistry I", "Biology I"};
     private ArrayList<Long> chosenList = new ArrayList<Long>(subjectList.length);

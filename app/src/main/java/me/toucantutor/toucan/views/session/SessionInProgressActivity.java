@@ -11,8 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import me.toucantutor.toucan.R;
+import me.toucantutor.toucan.util.AppActivity;
 
-public class SessionInProgressActivity extends ActionBarActivity {
+public class SessionInProgressActivity extends AppActivity {
 
     //stuff to finish:
     //implement the popup window

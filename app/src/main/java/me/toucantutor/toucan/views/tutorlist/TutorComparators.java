@@ -5,7 +5,7 @@ import java.util.Comparator;
 /**
  * Created by aadil on 2/22/15.
  */
-public class CompareTutors {
+public class TutorComparators {
 
 
     public static final Comparator<Tutor> NAME = new Comparator<Tutor>() {

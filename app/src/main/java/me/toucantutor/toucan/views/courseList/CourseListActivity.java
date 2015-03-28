@@ -2,12 +2,10 @@ package me.toucantutor.toucan.views.courseList;
 
 import android.content.Intent;
 import android.location.Location;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,11 +21,13 @@ import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.locationdata.DetermineLocation;
 import me.toucantutor.toucan.tasks.HttpTask;
 import me.toucantutor.toucan.tasks.TaskCallback;
+import me.toucantutor.toucan.util.AppActivity;
+import me.toucantutor.toucan.util.Constants;
 import me.toucantutor.toucan.views.customTutorList.TutorListActivity;
 
-public class CourseListActivity extends ActionBarActivity implements TaskCallback {
+public class CourseListActivity extends AppActivity implements TaskCallback {
 
-    private static final String url = "sessions/getCourses";
+    private static final String url = Constants.GET_COURSES_URL;
     private static final String failMsg = "It looks like we weren't able to find any courses " +
             "available near you at this time. Please try searching closer to the University " +
             "of Georgia campus for better results during our beta. Thanks!";

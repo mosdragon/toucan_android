@@ -83,8 +83,8 @@ public class DetermineLocation implements GoogleApiClient.ConnectionCallbacks,
         if (location == null) {
 //                For emulator testing, default location is Atlanta, GA
             Log.d("DetermineLocation - setLocation","~~~~location set was NULL~~~");
-            double latitude = 33.775618;
-            double longitude = -84.396285;
+            double latitude = 33.948005;
+            double longitude = -83.377322;
             location = new Location("");
             location.setLatitude(latitude);
             location.setLongitude(longitude);
@@ -94,6 +94,11 @@ public class DetermineLocation implements GoogleApiClient.ConnectionCallbacks,
     }
 
     public static Location getLocation() {
+        if (location == null) {
+            Log.d("getLocation", "location is NULL! Setting default location to\n" +
+                    "<33.948005, -83.377322>");
+            setLocation(null);
+        }
         return location;
     }
 

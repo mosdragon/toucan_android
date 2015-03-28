@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import me.toucantutor.toucan.R;
+import me.toucantutor.toucan.util.AppActivity;
 
 /*
  * Right now this screen is pretty useless lol. But later if we integrate canceling
@@ -16,7 +17,7 @@ import me.toucantutor.toucan.R;
  * to reject the request.
  */
 
-public class StartSessionActivity extends ActionBarActivity {
+public class StartSessionActivity extends AppActivity {
 
 
     private boolean isTutor;

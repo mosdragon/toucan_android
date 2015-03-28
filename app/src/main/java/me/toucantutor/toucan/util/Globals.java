@@ -8,6 +8,9 @@ import com.google.gson.Gson;
 
 import java.io.Serializable;
 
+import me.toucantutor.toucan.views.courseList.Course;
+import me.toucantutor.toucan.views.tutorlist.Tutor;
+
 /**
  * Created by osama on 3/15/15.
  */
@@ -21,10 +24,13 @@ public class Globals {
     private static boolean inSession;
 //    If previewing, names are hidden, and tapping on tutor takes you back
 //    to login screen
-    private static boolean isPreviewing;
+    private static boolean previewing;
 
 //    Time at which tutoring session began (to keep track of timer)
     private static Long beginTime;
+
+    private static Tutor tutor;
+    private static Course course;
 
     public enum State implements Serializable {
         TUTOR, TUTEE, BOTH, NONE
@@ -33,7 +39,7 @@ public class Globals {
 
     private static Activity activity;
 
-    public void appBegin(Activity activity) {
+    public static void appLoad(Activity activity) {
         Globals.activity = activity;
         SharedPreferences prefs = activity.getSharedPreferences(Constants.GLOBALS,
                 Context.MODE_PRIVATE);
@@ -50,15 +56,33 @@ public class Globals {
 
                 if (inSession) {
                     beginTime = prefs.getLong(Constants.BEGIN_TIME, System.currentTimeMillis());
+
+                    Gson gson = new Gson();
+
+//                    Parse objects from JSON
+                    String stateString = prefs.getString(Constants.STATE, "");
+                    if (!stateString.equals("")) {
+                        state = gson.fromJson(stateString, State.class);
+                    }
+
+                    String tutorString = prefs.getString(Constants.TUTOR, "");
+                    if (!tutorString.equals("")) {
+                        tutor = gson.fromJson(tutorString, Tutor.class);
+                    }
+
+                    String courseString = prefs.getString(Constants.COURSE, "");
+                    if (!stateString.equals("")) {
+                        course = gson.fromJson(courseString, Course.class);
+                    }
                 }
             } else {
-                isPreviewing = true;
+                previewing = true;
                 state = State.NONE;
             }
         }
     }
 
-    public void appEnd() {
+    public static void appSave() {
         SharedPreferences prefs = activity.getSharedPreferences(Constants.GLOBALS,
                 Context.MODE_PRIVATE);
 
@@ -77,11 +101,17 @@ public class Globals {
                     editor.putLong(Constants.BEGIN_TIME, beginTime);
                 }
             } else {
-                editor.putBoolean(Constants.IS_PREVIEWING, isPreviewing);
+                editor.putBoolean(Constants.IS_PREVIEWING, previewing);
                 state = State.NONE;
                 Gson gson = new Gson();
                 String stateString = gson.toJson(state);
                 editor.putString(Constants.STATE, stateString);
+
+                String tutorString = gson.toJson(tutor);
+                editor.putString(Constants.TUTOR, tutorString);
+
+                String courseString = gson.toJson(course);
+                editor.putString(Constants.COURSE, courseString);
             }
         }
     }
@@ -118,11 +148,11 @@ public class Globals {
         Globals.inSession = inSession;
     }
 
-    public State getState() {
+    public static State getState() {
         return state;
     }
 
-    public void setState(State state) {
+    public static void setState(State state) {
         Globals.state = state;
     }
 
@@ -143,19 +173,35 @@ public class Globals {
         Globals.tutorId = tutorId;
     }
 
-    public static boolean isIsPreviewing() {
-        return isPreviewing;
-    }
-
-    public static void setIsPreviewing(boolean isPreviewing) {
-        Globals.isPreviewing = isPreviewing;
-    }
-
     public static Long getBeginTime() {
         return beginTime;
     }
 
     public static void setBeginTime(Long beginTime) {
         Globals.beginTime = beginTime;
+    }
+
+    public static boolean isPreviewing() {
+        return previewing;
+    }
+
+    public static void setPreviewing(boolean previewing) {
+        Globals.previewing = previewing;
+    }
+
+    public static Tutor getTutor() {
+        return tutor;
+    }
+
+    public static void setTutor(Tutor tutor) {
+        Globals.tutor = tutor;
+    }
+
+    public static Course getCourse() {
+        return course;
+    }
+
+    public static void setCourse(Course course) {
+        Globals.course = course;
     }
 }

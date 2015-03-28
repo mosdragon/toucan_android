@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,10 +27,11 @@ import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.locationdata.DetermineLocation;
 import me.toucantutor.toucan.tasks.HttpTask;
 import me.toucantutor.toucan.tasks.TaskCallback;
+import me.toucantutor.toucan.util.Constants;
 import me.toucantutor.toucan.views.courseList.Course;
-import me.toucantutor.toucan.views.tutorlist.CompareTutors;
+import me.toucantutor.toucan.views.tutorlist.TutorComparators;
 import me.toucantutor.toucan.views.tutorlist.Tutor;
-import me.toucantutor.toucan.views.tutorlist.TutorDetailActivity;
+import me.toucantutor.toucan.views.customTutorList.TutorDetailActivity;
 import me.toucantutor.toucan.views.tutorlist.TutorListAdapter;
 
 /**
@@ -93,18 +95,18 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
      * Updates the Listview immediately
      */
     public void sortList(String sortBy){
-        CompareTutors t = new CompareTutors();
+        TutorComparators t = new TutorComparators();
         if(sortBy.equals("name")){
-            Collections.sort(listOfTutors,t.NAME);
+            Collections.sort(listOfTutors, t.NAME);
         }
         else if(sortBy.equals("price")){
-            Collections.sort(listOfTutors,t.PRICE);
+            Collections.sort(listOfTutors, t.PRICE);
         }
         else if(sortBy.equals("rating")){
-            Collections.sort(listOfTutors,t.RATING);
+            Collections.sort(listOfTutors, t.RATING);
         }
         else if(sortBy.equals("distance")){
-            Collections.sort(listOfTutors,t.DISTANCE);
+            Collections.sort(listOfTutors, t.DISTANCE);
         }
         this.listView.setAdapter(this.adapter);
     }
@@ -197,7 +199,8 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.v("","CLICKED TUTOR");
                 Intent intent = new Intent(getApplication(), TutorDetailActivity.class);
-                intent.putExtra("TUTOR", listOfTutors.get(position));
+                Serializable serialTutor = tutors.get(position);
+                intent.putExtra(Constants.TUTOR, serialTutor);
                 startActivity(intent);
             }
         });

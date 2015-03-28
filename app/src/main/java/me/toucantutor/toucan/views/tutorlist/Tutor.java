@@ -1,6 +1,8 @@
 package me.toucantutor.toucan.views.tutorlist;
 
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.google.gson.JsonElement;
@@ -12,12 +14,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import me.toucantutor.toucan.locationdata.DetermineLocation;
+
 /**
  * Created by Aadil on 2/13/2015.
  */
-public class Tutor implements Serializable{
+public class Tutor implements Serializable, Parcelable {
 
-    private Double availablity;
     private Double distance;
     private Double rate;
     private Double rating;
@@ -35,7 +38,7 @@ public class Tutor implements Serializable{
     private String major;
 
 
-//    "biography": "",
+//            "biography": "",
 //            "course": "PORT 2001",
 //            "experience": 0,
 //            "isCertified": true,
@@ -53,7 +56,6 @@ public class Tutor implements Serializable{
 
     public Tutor(JsonObject input){
         setCertified(input.get("isCertified").getAsBoolean());
-        //setAvailability(fetch(input,"availability"));
         setTutorId(fetch(input, "tutorId"));
         setName(fetch(input, "name"));
         setEmail(fetch(input, "email"));
@@ -62,10 +64,6 @@ public class Tutor implements Serializable{
         setLatitude(fetch(input, "latitude"));
         setLongitude(fetch(input, "longitude"));
         setDistance();
-    }
-
-    public Tutor(){
-
     }
 
     private String fetch(JsonObject input, String fieldName) {
@@ -115,13 +113,6 @@ public class Tutor implements Serializable{
         return rating;
     }
 
-    public void setAvailability(String availablity){
-        this.availablity= Double.parseDouble(availablity);
-    }
-    public double getAvailability(){
-        return availablity;
-    }
-
     public void setRate(String rate){
         this.rate = Double.parseDouble(rate);
     }
@@ -144,21 +135,28 @@ public class Tutor implements Serializable{
     }
 
     //uses lat/long of tutor and current user to find distance between them
-    public void setDistance(){
+    public void setDistance() {
         //flawed way of calculating distance.
         Location tutorLocation =  new Location("");
         tutorLocation.setLatitude(latitude);
         tutorLocation.setLongitude(longitude);
-        Location currentLocation = new Location("");
-        //get currentlocation from location class. This is for testing--use locationData class
-        currentLocation.setLatitude(33.947688);
-        currentLocation.setLongitude(-83.346157);
-        //claimed to be the distance in miles btw points. Doesn't seem like it...
-        double distance = currentLocation.distanceTo(tutorLocation)*0.000621371;
-        distance = distance*100;
-        distance = Math.round(distance);
-        distance = distance /100;
-        this.distance = distance;
+        setLocation(tutorLocation);
+
+        Location currentLocation = DetermineLocation.getLocation();
+
+        double inMeters = currentLocation.distanceTo(tutorLocation);
+        double inKms = inMeters / 1000;
+        double inMiles = inKms * 0.000621371;
+        inMiles = Math.floor(inMiles * 100) / 100.00;
+
+        this.distance = inMiles;
+
+        String tutLocStr = String.format("Lat/Lng: <%f,%f>", tutorLocation.getLatitude(),
+                tutorLocation.getLongitude());
+        String currLocStr = String.format("Lat/Lng: <%f,%f>", currentLocation.getLatitude(),
+                currentLocation.getLongitude());
+        Log.d("~~~~~~~~TUTOR LOCATION:", tutLocStr);
+        Log.d("~~~~~~~~CURRENT LOCATION:", currLocStr);
     }
     public Double getDistance(){
         return distance;
@@ -186,5 +184,23 @@ public class Tutor implements Serializable{
 
     public void setBiography(String biography) {
         this.biography = biography;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }

@@ -88,6 +88,11 @@
         </activity>
 
         <activity
+            android:name=".views.customTutorList.TutorDetailActivity"
+            android:label="@string/title_activity_tutor_detail" >
+        </activity>
+
+        <activity
             android:name=".views.RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>

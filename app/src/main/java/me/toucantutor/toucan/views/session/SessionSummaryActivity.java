@@ -7,8 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import me.toucantutor.toucan.R;
+import me.toucantutor.toucan.util.AppActivity;
 
-public class SessionSummaryActivity extends ActionBarActivity {
+public class SessionSummaryActivity extends AppActivity {
 
     private boolean isTutor;
 
