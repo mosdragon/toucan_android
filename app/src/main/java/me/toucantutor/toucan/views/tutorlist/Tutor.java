@@ -145,9 +145,11 @@ public class Tutor implements Serializable {
         double inMeters = currentLocation.distanceTo(tutorLocation);
         double inKms = inMeters / 1000;
         double inMiles = inKms * 0.000621371;
-        inMiles = Math.floor(inMiles * 100) / 100.00;
 
-        this.distance = inMiles;
+        String distanceString = String.format("%.2f", inMiles);
+//        inMiles = Math.floor(inMiles * 100) / 100.00;
+
+        this.distance = Double.parseDouble(distanceString);
 
         String tutLocStr = String.format("Lat/Lng: <%f,%f>", tutorLocation.getLatitude(),
                 tutorLocation.getLongitude());

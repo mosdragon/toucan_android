@@ -1,4 +1,4 @@
-package me.toucantutor.toucan.views.customTutorList;
+package me.toucantutor.toucan.views.tutorlist;
 
 /**
  * Created by osama on 3/27/15.
@@ -24,7 +24,6 @@ import me.toucantutor.toucan.util.AppActivity;
 import me.toucantutor.toucan.util.Constants;
 import me.toucantutor.toucan.util.Globals;
 import me.toucantutor.toucan.views.session.StartSessionActivity;
-import me.toucantutor.toucan.views.tutorlist.Tutor;
 
 
 public class TutorDetailActivity extends AppActivity implements TaskCallback {

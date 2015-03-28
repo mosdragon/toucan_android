@@ -19,4 +19,10 @@ public class AppActivity extends Activity {
         super.onStop();
         Globals.appSave();
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        Globals.appSave();
+    }
 }

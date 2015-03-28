@@ -53,7 +53,7 @@
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:gravity="end"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/certified"
         android:id="@+id/tutorCertSymbol"
         android:layout_alignTop="@+id/tutorCertification"
         android:layout_toRightOf="@+id/distanceText"

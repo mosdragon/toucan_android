@@ -43,7 +43,7 @@ def resizeDrawables(filename):
 	im = Image.open(fullpath)
 
 	print  "Original Image DPI : " 
-	print im.info["dpi"]
+	# print im.info["dpi"]
 
 	for name in names:
 		size = sizes[name]
@@ -52,7 +52,7 @@ def resizeDrawables(filename):
 		newfilename = basedir +"-" + name + "/" + filename
 		# newfilename = "to-send" + "/" + name + "-" + filename
 		print newfilename 
-		print im_resized.info["dpi"]
+		# print im_resized.info["dpi"]
 		im_resized.save(newfilename)
 	
 

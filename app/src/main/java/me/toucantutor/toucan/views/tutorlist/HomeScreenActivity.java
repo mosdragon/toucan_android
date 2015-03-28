@@ -49,10 +49,25 @@ public class HomeScreenActivity extends AppActivity implements MapsClientCallbac
 //        });
     }
 
+//    If we end up at HomeScreenActivity from another activity, pressing back closes app
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(intent);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
         DetermineLocation.connect();
+        Button loginButton = (Button) findViewById(R.id.loginButton);
+        if (Globals.isLoggedIn()) {
+            loginButton.setText("Logout");
+        } else {
+            loginButton.setText("Login");
+        }
     }
 
     public void findCourses(View view) {
@@ -63,6 +78,20 @@ public class HomeScreenActivity extends AppActivity implements MapsClientCallbac
     public void register(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
+    }
+
+    public void handleLogin(View view) {
+        if (Globals.isLoggedIn()) {
+//            For now. There will be more stuff to change
+            Globals.setLoggedIn(false);
+            Globals.setPreviewing(true);
+//            Globals.appSave();
+            Button loginButton = (Button) findViewById(R.id.loginButton);
+            loginButton.setText("Login");
+        } else {
+            Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override

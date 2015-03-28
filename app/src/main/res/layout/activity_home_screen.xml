@@ -81,4 +81,12 @@
         android:id="@+id/toRegisterActivity"
         android:layout_below="@id/button4" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:text=""
+        android:onClick="handleLogin"
+        android:layout_height="wrap_content"
+        android:id="@+id/loginButton"
+        android:layout_below="@id/toRegisterActivity" />
+
 </RelativeLayout>

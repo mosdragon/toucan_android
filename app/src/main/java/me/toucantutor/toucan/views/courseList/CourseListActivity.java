@@ -25,7 +25,7 @@ import me.toucantutor.toucan.tasks.TaskCallback;
 import me.toucantutor.toucan.util.AppActivity;
 import me.toucantutor.toucan.util.Constants;
 import me.toucantutor.toucan.util.Globals;
-import me.toucantutor.toucan.views.customTutorList.TutorListActivity;
+import me.toucantutor.toucan.views.tutorlist.TutorListActivity;
 
 public class CourseListActivity extends AppActivity implements TaskCallback {
 

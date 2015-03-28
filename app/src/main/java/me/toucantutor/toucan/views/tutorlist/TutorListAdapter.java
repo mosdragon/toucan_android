@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.List;
 
 import me.toucantutor.toucan.R;
+import me.toucantutor.toucan.util.Globals;
 
 /**
  * Created by aadil on 2/20/15.
@@ -64,12 +65,24 @@ public class TutorListAdapter extends ArrayAdapter<Tutor> {
         nameField.setText(currentTutor.getName().length() < 20
                 ? currentTutor.getName().toUpperCase()
                 : currentTutor.getName().substring(0, 20).toUpperCase());
-        ratingField.setRating(currentTutor.getRating().floatValue());
-        ratingValue.setText(currentTutor.getRating() + "");
-        priceField.setText("$" + (currentTutor.getRate().intValue() < 10
-                ? "0" + currentTutor.getRate().intValue()
-                : currentTutor.getRate().intValue()));
-        distanceField.setText(currentTutor.getDistance().intValue()+" mi.");
+
+        if (Globals.isPreviewing()) {
+            nameField.setText("Tutor #" + (position + 1));
+            nameField.setText("Name Hidden");
+        }
+
+        if (currentTutor.getRating() == -1) {
+            ratingField.setRating(0);
+            ratingValue.setText("No ratings");
+        } else {
+            ratingField.setRating(currentTutor.getRating().floatValue());
+            ratingValue.setText(currentTutor.getRating() + "");
+        }
+
+        String priceText = String.format("$%2.2f", currentTutor.getRate());
+        priceField.setText(priceText);
+
+        distanceField.setText(currentTutor.getDistance() + " mi.");
         Random rand = new Random();
         certified.setVisibility(currentTutor.getCertification() ? View.VISIBLE : View.INVISIBLE);
         return row;

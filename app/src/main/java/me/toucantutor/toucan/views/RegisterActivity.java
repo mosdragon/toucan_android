@@ -31,8 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import me.toucantutor.toucan.R;
-
-
+import me.toucantutor.toucan.util.Globals;
 
 
 /**
@@ -45,7 +44,7 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
+            "foo@example.com:hello", "bar@example.com:world", "hello:world"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -233,6 +232,9 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
 
             if (success) {
                 Log.d("RegisterActivity - onPostExecute", "SUCCESSFUL");
+                Globals.setLoggedIn(true);
+                Globals.setPreviewing(false);
+//                Globals.appSave();
                 finish();
             } else {
                 Log.d("RegisterActivity - onPostExecute", "FAILURE");

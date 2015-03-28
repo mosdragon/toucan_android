@@ -13,7 +13,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/certified"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <meta-data
@@ -71,12 +71,12 @@
         </activity>
 
         <activity
-            android:name=".views.customTutorList.TutorListActivity"
+            android:name=".views.tutorlist.TutorListActivity"
             android:label="@string/title_activity_tutor_list" >
         </activity>
 
         <activity
-            android:name=".views.customTutorList.TutorDetailActivity"
+            android:name=".views.tutorlist.TutorDetailActivity"
             android:label="@string/title_activity_tutor_detail" >
         </activity>
 

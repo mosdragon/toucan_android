@@ -1,4 +1,4 @@
-package me.toucantutor.toucan.views.customTutorList;
+package me.toucantutor.toucan.views.tutorlist;
 
 import android.content.Intent;
 import android.location.Location;
@@ -28,11 +28,8 @@ import me.toucantutor.toucan.locationdata.DetermineLocation;
 import me.toucantutor.toucan.tasks.HttpTask;
 import me.toucantutor.toucan.tasks.TaskCallback;
 import me.toucantutor.toucan.util.Constants;
+import me.toucantutor.toucan.util.Globals;
 import me.toucantutor.toucan.views.courseList.Course;
-import me.toucantutor.toucan.views.tutorlist.TutorComparators;
-import me.toucantutor.toucan.views.tutorlist.Tutor;
-import me.toucantutor.toucan.views.customTutorList.TutorDetailActivity;
-import me.toucantutor.toucan.views.tutorlist.TutorListAdapter;
 
 /**
  * Created by osama on 3/14/15.
@@ -198,10 +195,19 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.v("","CLICKED TUTOR");
-                Intent intent = new Intent(getApplication(), TutorDetailActivity.class);
-                Serializable serialTutor = tutors.get(position);
-                intent.putExtra(Constants.TUTOR, serialTutor);
-                startActivity(intent);
+//                If previewing, don't show details. Take to login screen
+                if (Globals.isPreviewing()) {
+                    Intent intent = new Intent(TutorListActivity.this, HomeScreenActivity.class);
+                    String msg = "You are currently in preview mode. Please login or register to" +
+                            " see tutor details";
+                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getApplication(), TutorDetailActivity.class);
+                    Serializable serialTutor = tutors.get(position);
+                    intent.putExtra(Constants.TUTOR, serialTutor);
+                    startActivity(intent);
+                }
             }
         });
     }
