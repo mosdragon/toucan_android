@@ -12,10 +12,15 @@ import android.widget.TextView;
 
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.locationdata.DetermineLocation;
+
 import me.toucantutor.toucan.util.AppActivity;
 import me.toucantutor.toucan.util.Globals;
+
+import me.toucantutor.toucan.login_register.LoginActivity;
+import me.toucantutor.toucan.login_register.RegisterActivity;
+
 import me.toucantutor.toucan.util.MapsClientCallback;
-import me.toucantutor.toucan.views.RegisterActivity;
+import me.toucantutor.toucan.views.OldRegisterActivity;
 import me.toucantutor.toucan.views.courseList.CourseListActivity;
 import me.toucantutor.toucan.views.session.StartSessionActivity;
 
@@ -36,7 +41,7 @@ public class HomeScreenActivity extends AppActivity implements MapsClientCallbac
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplication(),ChooseSubjectActivity.class);
+                Intent i = new Intent(getApplication(),CourseListActivity.class);
                 startActivity(i);
             }
         });
@@ -80,6 +85,7 @@ public class HomeScreenActivity extends AppActivity implements MapsClientCallbac
         startActivity(intent);
     }
 
+
     public void handleLogin(View view) {
         if (Globals.isLoggedIn()) {
 //            For now. There will be more stuff to change
@@ -89,10 +95,17 @@ public class HomeScreenActivity extends AppActivity implements MapsClientCallbac
             Button loginButton = (Button) findViewById(R.id.loginButton);
             loginButton.setText("Login");
         } else {
-            Intent intent = new Intent(this, RegisterActivity.class);
+            Intent intent = new Intent(this, OldRegisterActivity.class);
             startActivity(intent);
         }
     }
+
+
+    public void login(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
 
     @Override
     public void clientFinished() {

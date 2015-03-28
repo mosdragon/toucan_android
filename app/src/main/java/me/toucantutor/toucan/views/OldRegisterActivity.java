@@ -37,7 +37,7 @@ import me.toucantutor.toucan.util.Globals;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor> {
+public class OldRegisterActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -231,13 +231,13 @@ public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor
             mAuthTask = null;
 
             if (success) {
-                Log.d("RegisterActivity - onPostExecute", "SUCCESSFUL");
+                Log.d("OldRegisterActivity - onPostExecute", "SUCCESSFUL");
                 Globals.setLoggedIn(true);
                 Globals.setPreviewing(false);
 //                Globals.appSave();
                 finish();
             } else {
-                Log.d("RegisterActivity - onPostExecute", "FAILURE");
+                Log.d("OldRegisterActivity - onPostExecute", "FAILURE");
                 mPasswordView.setError(getString(R.string.invalid_credentials));
                 mPasswordView.requestFocus();
             }

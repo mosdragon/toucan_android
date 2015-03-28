@@ -42,8 +42,6 @@ import me.toucantutor.toucan.util.Requests;
  */
 public class HttpTask extends AsyncTask<Void,Void,Void> {
 
-    public static final String BASEURL = Constants.BASEURL;
-
     private JsonObject json;
     private String url;
     private JsonObject response;
@@ -53,7 +51,7 @@ public class HttpTask extends AsyncTask<Void,Void,Void> {
     public HttpTask(TaskCallback callback, JsonObject json, String url) {
         this.callback = callback;
         this.json = json;
-        this.url = BASEURL + url;
+        this.url = url;
         failed = true;
     }
 
@@ -61,6 +59,7 @@ public class HttpTask extends AsyncTask<Void,Void,Void> {
     protected Void doInBackground(Void... params) {
         HttpPost post = new HttpPost();
         try {
+            Log.v("","DOING IN BACKGROUND");
             post.setURI(new URI(url));
             post.setHeader("Content-Type", "application/json; charset=utf-8");
             StringEntity stringEntity = new StringEntity(json.toString());
@@ -75,6 +74,7 @@ public class HttpTask extends AsyncTask<Void,Void,Void> {
                 Gson gson = new Gson();
                 response = gson.fromJson(reader, JsonObject.class);
                 failed = false;
+                Log.v("","SHOULD BE SUCESS");
 
             } else {
                 Log.d("doInBackground", "StatusCode not 200");
@@ -95,6 +95,7 @@ public class HttpTask extends AsyncTask<Void,Void,Void> {
             if (failed) {
                 callback.taskFail(response);
             } else {
+                Log.v("","SHOULD GO BACK TO ACTIVITY");
                 callback.taskSuccess(response);
             }
         }

@@ -1,15 +1,26 @@
 package me.toucantutor.toucan.views.session;
 
 import android.content.Intent;
+import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import me.toucantutor.toucan.R;
 import me.toucantutor.toucan.util.AppActivity;
+import me.toucantutor.toucan.locationdata.DetermineLocation;
+import me.toucantutor.toucan.tasks.HttpTask;
+import me.toucantutor.toucan.tasks.TaskCallback;
+import me.toucantutor.toucan.util.Constants;
+import me.toucantutor.toucan.util.Globals;
+import me.toucantutor.toucan.views.tutorlist.Tutor;
 
 /*
  * Right now this screen is pretty useless lol. But later if we integrate canceling
@@ -17,46 +28,41 @@ import me.toucantutor.toucan.util.AppActivity;
  * to reject the request.
  */
 
-public class StartSessionActivity extends AppActivity {
+public class StartSessionActivity extends AppActivity implements TaskCallback{
 
 
     private boolean isTutor;
+    private Tutor tutor;
+    private Long sessionId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_session);
-
-        isTutor = false;
-        isTutor = true;
+        Bundle b = getIntent().getExtras();
+        tutor = (Tutor) b.getSerializable("tutor");
+        getSessionData();
+        Location l = DetermineLocation.getLocation();
         //for now I'm only dealing with them starting a new session
         //for old sessions, I will need the session time and the users in the session
-        setDisplay(isTutor);
-
+        setDisplay(Globals.getState() == Globals.State.TUTOR);
     }
 
+    public void getSessionData() {
+        Gson gson = new Gson();
+        JsonObject object = new JsonObject();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_start_session, menu);
-        return true;
+        String dummyId = "903778";
+        String dummyNumber = "6786025306";
+
+        object.addProperty("userId", dummyId);
+        object.addProperty("studentPhone", dummyNumber);
+        object.addProperty("tutorId", tutor.getTutorId());
+        object.addProperty("course", tutor.getCourse());
+        Log.v("", "JSON SENT TO SERVER " + gson.toJson(object));
+        HttpTask task = new HttpTask(this, object, Constants.SELECT_TUTOR_URL);
+        task.execute();
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     private void setDisplay(boolean isTutor) {
         if(isTutor) {
@@ -77,15 +83,25 @@ public class StartSessionActivity extends AppActivity {
     }
 
     public void continueSession(View view) {
-
-        nextActivity();
-    }
-
-
-
-    private void nextActivity() {
         Intent i = new Intent(this, SessionInProgressActivity.class);
         i.putExtra("isTut", isTutor);
         startActivity(i);
     }
+
+    @Override
+    public void taskSuccess(JsonObject json) {
+        Log.v("","JSON PASSED BACK"+json.toString());
+        String phone = json.get("tutorPhone").getAsString();
+        String name = json.get("tutorName").getAsString();
+        String course = json.get("course").getAsString();
+        this.sessionId = json.get("sessionId").getAsLong();
+    }
+
+    @Override
+    public void taskFail(JsonObject json) {
+        Log.v("", "NOOOOO");
+
+    }
+
+
 }

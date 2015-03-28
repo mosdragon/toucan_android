@@ -46,7 +46,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
     private TutorListAdapter adapter;
     private ListView listView;
 
-    private static final String url = "sessions/findActiveTutors";
+    private static final String url = Constants.FIND_ACTIVE_TUTORS_URL;
     private static int miles = Constants.MILES;
 //    private static final String failMsg = "It looks like we weren't able to find any tutors " +
 //            "available near you at this time. Please try searching later or" +

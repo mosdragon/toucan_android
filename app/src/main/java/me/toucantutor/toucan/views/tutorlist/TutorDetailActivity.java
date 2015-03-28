@@ -44,13 +44,15 @@ public class TutorDetailActivity extends AppActivity implements TaskCallback {
     }
 
     private void createTask() {
+        String dummyNumber = "6786025306";
+
         Gson gson = new Gson();
         JsonArray array = new JsonArray();
         JsonObject object = new JsonObject();
         object.addProperty("tutorId", tutor.getTutorId());
         object.addProperty("userId", Globals.getUserId());
         object.addProperty("course", Globals.getCourse().getCoursename());
-        object.addProperty("studentPhone", "7709382274");
+        object.addProperty("studentPhone", dummyNumber);
 //        String jsonString = gson.toJson(object);
         task = new HttpTask(this, object, Constants.SELECT_TUTOR_URL);
         //should get JsonString from task. Set this.jsonString = return;
