@@ -47,13 +47,15 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
     private ListView listView;
 
     private static final String url = "sessions/findActiveTutors";
-    private static final int miles = 65;
+    private static int miles = Constants.MILES;
+//    private static final String failMsg = "It looks like we weren't able to find any tutors " +
+//            "available near you at this time. Please try searching later or" +
+//            " closer to the University of Georgia campus for better results during" +
+//            " our beta. Thanks!";
     private static final String failMsg = "It looks like we weren't able to find any tutors " +
-            "available near you at this time. Please try searching later or" +
-            " closer to the University of Georgia campus for better results during" +
-            " our beta. Thanks!";
+        "available near you at this time.";
 
-    private Course chosenCourse;
+    private Course course;
     private List<Tutor> tutors;
     private HttpTask task;
 
@@ -67,17 +69,18 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
 //        buildData(readRawTextFile(this));
         Intent usedIntent = getIntent();
         if (usedIntent != null) {
-            chosenCourse = (Course) usedIntent.getSerializableExtra(Constants.COURSE);
+            course = (Course) usedIntent.getSerializableExtra(Constants.COURSE);
 
-            if (chosenCourse != null) {
+            if (course != null) {
                 JsonObject json = new JsonObject();
                 Location location = DetermineLocation.getLocation();
                 json.addProperty("latitude", location.getLatitude());
                 json.addProperty("longitude", location.getLongitude());
-                json.addProperty("course", chosenCourse.getCoursename());
+                json.addProperty("course", course.getCoursename());
+                json.addProperty("school", course.getSchool());
                 json.addProperty("miles", miles);
 
-                Log.d("chosenCourse", chosenCourse.getCoursename());
+                Log.d("course", course.getCoursename());
                 Log.d("json", json.toString());
 
                 task = new HttpTask(this, json, url);
@@ -200,7 +203,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
                     Intent intent = new Intent(TutorListActivity.this, HomeScreenActivity.class);
                     String msg = "You are currently in preview mode. Please login or register to" +
                             " see tutor details";
-                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG);
+                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(getApplication(), TutorDetailActivity.class);

@@ -30,9 +30,11 @@ import me.toucantutor.toucan.views.tutorlist.TutorListActivity;
 public class CourseListActivity extends AppActivity implements TaskCallback {
 
     private static final String url = Constants.GET_COURSES_URL;
+//    private static final String failMsg = "It looks like we weren't able to find any courses " +
+//            "available near you at this time. Please try searching closer to the University " +
+//            "of Georgia campus for better results during our beta. Thanks!";
     private static final String failMsg = "It looks like we weren't able to find any courses " +
-            "available near you at this time. Please try searching closer to the University " +
-            "of Georgia campus for better results during our beta. Thanks!";
+        "available near you at this time.";
     private List<Course> courses;
     private HttpTask task;
 

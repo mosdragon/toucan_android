@@ -71,19 +71,22 @@ public class TutorDetailActivity extends AppActivity implements TaskCallback {
 
         name.setText(tutor.getName().toUpperCase());
         email.setText(tutor.getEmail());
-        if(tutor.getCertification()==true) {
+
+        if (tutor.isCertified()) {
             certification.setText("Certified");
             certification.setPadding(82,10,0,10);
             certified.setVisibility(View.VISIBLE);
-        }
-        else{
-            certification.setText("Uncertified");
+        } else {
+//            certification.setText("Uncertified");
+            certification.setVisibility(View.INVISIBLE);
             certified.setVisibility(View.INVISIBLE);
         }
         phone.setText("" + tutor.getPhoneNumber());
         ratingBar.setRating(tutor.getRating().floatValue());
         distance.setText(tutor.getDistance() + " mi.");
-        price.setText("$" + tutor.getRate().intValue());
+
+        String priceText = String.format("$%3.2f", tutor.getRate());
+        price.setText(priceText);
         choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -31,7 +31,7 @@ public class Tutor implements Serializable {
 
     private String biography;
     private String course;
-    private boolean isCertified;
+    private boolean certified;
     private Double latitude;
     private Double longitude;
     private String major;
@@ -74,11 +74,11 @@ public class Tutor implements Serializable {
         return s;
     }
 
-    public void setCertified(Boolean isCertified) {
-        this.isCertified = isCertified;
+    public void setCertified(Boolean certified) {
+        this.certified = certified;
     }
-    public boolean getCertification() {
-        return isCertified;
+    public boolean isCertified() {
+        return certified;
     }
 
     public void setPhoneNumber(String number) { phoneNumber = number; }
@@ -143,8 +143,9 @@ public class Tutor implements Serializable {
         Location currentLocation = DetermineLocation.getLocation();
 
         double inMeters = currentLocation.distanceTo(tutorLocation);
-        double inKms = inMeters / 1000;
-        double inMiles = inKms * 0.000621371;
+//        double inKms = inMeters / 1000;
+        double inMiles = inMeters * 0.000621371;
+
 
         String distanceString = String.format("%.2f", inMiles);
 //        inMiles = Math.floor(inMiles * 100) / 100.00;

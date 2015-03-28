@@ -84,7 +84,7 @@ public class TutorListAdapter extends ArrayAdapter<Tutor> {
 
         distanceField.setText(currentTutor.getDistance() + " mi.");
         Random rand = new Random();
-        certified.setVisibility(currentTutor.getCertification() ? View.VISIBLE : View.INVISIBLE);
+        certified.setVisibility(currentTutor.isCertified() ? View.VISIBLE : View.INVISIBLE);
         return row;
     }
 

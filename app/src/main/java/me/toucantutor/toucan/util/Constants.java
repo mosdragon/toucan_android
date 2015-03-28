@@ -32,6 +32,8 @@ public class Constants {
     public static final String TUTOR = "TUTOR";
     public static final String COURSE = "COURSE";
 
+    public static final int MILES = 5;
+
 
 
 

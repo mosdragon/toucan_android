@@ -89,6 +89,7 @@ public class Globals {
         if (prefs != null) {
             SharedPreferences.Editor editor = prefs.edit();
             if (loggedIn) {
+                editor.putBoolean(Constants.IS_LOGGED_IN, loggedIn);
                 editor.putString(Constants.USER_ID, userId);
                 editor.putString(Constants.TUTOR_ID, tutorId);
                 editor.putString(Constants.SESSION_ID, sessionId);
