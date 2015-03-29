@@ -78,7 +78,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
                 json.addProperty("longitude", location.getLongitude());
                 json.addProperty("course", course.getCoursename());
                 json.addProperty("school", course.getSchool());
-                json.addProperty("miles", miles);
+                json.addProperty("expectedDist", miles+"");
 
                 Log.d("course", course.getCoursename());
                 Log.d("json", json.toString());
@@ -199,7 +199,7 @@ public class TutorListActivity extends ActionBarActivity implements TaskCallback
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.v("","CLICKED TUTOR");
 //                If previewing, don't show details. Take to login screen
-                if (Globals.isPreviewing()) {
+                if (!Globals.isLoggedIn()) {
                     Intent intent = new Intent(TutorListActivity.this, HomeScreenActivity.class);
                     String msg = "You are currently in preview mode. Please login or register to" +
                             " see tutor details";

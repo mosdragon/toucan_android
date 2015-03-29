@@ -10,6 +10,7 @@ public class Constants {
     public static final String BASEURL = "http://beta-toucanapp.rhcloud.com/api/v1/";
 
     public static final String ACTIVE_TUTOR_URL = BASEURL + "";
+    public static final String LOGIN = BASEURL + "users/login";
     public static final String STUDENT_REGISTER_URL = BASEURL + "users/signupStudent";
     public static final String TUTOR_REGISTER_URL = BASEURL + "users/signupTutor";
     public static final String CHECK_CODE_VALID_URL = BASEURL + "users/checkCodeValid";

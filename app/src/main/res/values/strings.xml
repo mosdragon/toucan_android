@@ -58,5 +58,7 @@
     <string name="invalid_password">        It looks like that\'s not a valid password. Please try again.</string>
     <string name="invalid_email">        It looks like that\'s not a valid email. Please try again.</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_actual_home_screen">ActualHomeScreen</string>
+    <string name="title_activity_choose_availability">ChooseAvailability</string>
 
 </resources>

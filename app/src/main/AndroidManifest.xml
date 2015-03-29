@@ -64,32 +64,34 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.toucantutor.toucan.views.tutorlist.HomeScreenActivity" />
         </activity>
-
         <activity
-
             android:name=".views.tutorlist.TutorListActivity"
             android:label="@string/title_activity_tutor_list" >
-            </activity>
+        </activity>
         <activity
             android:name=".login_register.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
-
         <activity
             android:name=".views.tutorlist.TutorDetailActivity"
             android:label="@string/title_activity_tutor_detail" >
         </activity>
-
         <activity
             android:name=".views.OldRegisterActivity"
-            android:label="@string/title_activity_register">
+            android:label="@string/title_activity_register" >
         </activity>
-
         <activity
             android:name=".login_register.RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
-
+        <activity
+            android:name=".ActualHomeScreen"
+            android:label="@string/title_activity_actual_home_screen" >
+        </activity>
+        <activity
+            android:name=".ChooseAvailability"
+            android:label="@string/title_activity_choose_availability" >
+        </activity>
     </application>
 
 </manifest>

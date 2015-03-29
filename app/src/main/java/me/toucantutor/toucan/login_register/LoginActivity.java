@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -38,15 +39,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import me.toucantutor.toucan.ActualHomeScreen;
 import me.toucantutor.toucan.R;
+import me.toucantutor.toucan.tasks.HttpTask;
 import me.toucantutor.toucan.tasks.TaskCallback;
+import me.toucantutor.toucan.util.Constants;
+import me.toucantutor.toucan.util.Globals;
 import me.toucantutor.toucan.views.courseList.Course;
 
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,TaskCallback {
+public class LoginActivity extends Activity implements TaskCallback {
 
 
 
@@ -54,8 +59,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,T
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+//    private UserLoginTask mAuthTask = null;
 
+    String email = "";
+    String pass = "";
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -75,7 +82,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,T
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        populateAutoComplete();
+//        populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -112,28 +119,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,T
         }
     }
 
-    private void populateAutoComplete() {
-        getLoaderManager().initLoader(0, null, this);
-    }
-
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     public void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
+//        if (mAuthTask != null) {
+//            return;
+//        }
 
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        email = mEmailView.getText().toString();
+        pass = mPasswordView.getText().toString();
 
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mEmailView.getWindowToken(), 0);
@@ -143,7 +140,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,T
 
 
         // Check for empty fields.
-        if (TextUtils.isEmpty(email)||TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(email)||TextUtils.isEmpty(pass)) {
             mEmailView.setError(getString(R.string.field_required));
             focusView = mEmailView;
             cancel = true;
@@ -154,7 +151,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,T
             cancel = true;
         }
         // Check for a valid password.
-        else if (!isPasswordValid(password)) {
+        else if (!isPasswordValid(pass)) {
             mPasswordView.setError(getString(R.string.invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -163,7 +160,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,T
         if (saveLoginCheckBox.isChecked()) {
             loginPrefsEditor.putBoolean("saveLogin", true);
             loginPrefsEditor.putString("username", email);
-            loginPrefsEditor.putString("password", password);
+            loginPrefsEditor.putString("password", pass);
             loginPrefsEditor.commit();
         } else {
             loginPrefsEditor.clear();
@@ -175,10 +172,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,T
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+
+            JsonObject object = new JsonObject();
+            object.addProperty("user",email);
+            object.addProperty("password",pass);
+            HttpTask task = new HttpTask(this, object, Constants.LOGIN);
+            task.execute();
+
+
+//            mAuthTask = new UserLoginTask(email, password);
+//            mAuthTask.execute((Void) null);
         }
     }
 
@@ -195,95 +198,28 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,T
         return password.length() >= 4;
     }
 
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-
-                // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                .CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> emails = new ArrayList<String>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
-            cursor.moveToNext();
-        }
-
-        addEmailsToAutoComplete(emails);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
-    }
-
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
-    }
-
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(LoginActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mEmailView.setAdapter(adapter);
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-
-            return null;
-
-        }
-
-    }
-
     @Override
     public void taskSuccess(JsonObject json) {
+        Log.v("status", "MAH NIGA! IT WORKED");
+        Log.v("json ",json.toString());
+        String userType = (json.get("userType")).getAsString();
+        String userId = (json.get("userId")).getAsString();
+        Intent intent = new Intent(this, ActualHomeScreen.class);
+        intent.putExtra("userId", userId);
+        if(userType.equals("BOTH")||userType.equals("TUTOR")){
+            intent.putExtra("isTutor", true);
+        }
+        else{//student
+            intent.putExtra("isTutor", false);
+        }
+        Globals.setLoggedIn(true);
+        startActivity(intent);
 
     }
 
     @Override
     public void taskFail(JsonObject json) {
-        Log.v("","NOOOOO");
-
+        Log.v("status", "DARN_ FAILED");
     }
 }
 

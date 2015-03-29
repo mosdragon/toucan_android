@@ -16,6 +16,7 @@ import me.toucantutor.toucan.views.tutorlist.Tutor;
  */
 public class Globals {
 
+    private static String currentId = "";
     private static String userId = "";
     private static String tutorId = "";
     private static String sessionId = "";
@@ -156,6 +157,14 @@ public class Globals {
         Globals.state = state;
     }
 
+
+    public static String getCurrentId() {
+        return currentId;
+    }
+
+    public static void setCurrentId(String currentId) {
+        Globals.currentId = currentId;
+    }
 
     public static String getUserId() {
         return userId;

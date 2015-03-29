@@ -66,7 +66,7 @@ public class TutorListAdapter extends ArrayAdapter<Tutor> {
                 ? currentTutor.getName().toUpperCase()
                 : currentTutor.getName().substring(0, 20).toUpperCase());
 
-        if (Globals.isPreviewing()) {
+        if (!Globals.isLoggedIn()) {
             nameField.setText("Tutor #" + (position + 1));
             nameField.setText("Name Hidden");
         }

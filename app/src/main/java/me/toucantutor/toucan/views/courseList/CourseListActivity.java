@@ -47,7 +47,6 @@ public class CourseListActivity extends AppActivity implements TaskCallback {
         Location location = DetermineLocation.getLocation();
         json.addProperty("latitude", location.getLatitude());
         json.addProperty("longitude", location.getLongitude());
-
         task = new HttpTask(this, json, url);
         task.execute();
     }
